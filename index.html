@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Ledger — Loan Book</title>
+
+<!-- iPhone "Add to Home Screen" support: makes this open full-screen, app-style, with its own icon -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ledger">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#14161c">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADdklEQVR4nO3doU4cURiGYWh6AQiCIAhuoL4pDoHhHhpkLWngCqpYUVvJBdQRTJPiEA212DpkRVVtHUHwNcyZc2bObJ5HImYn87/7z7CbwOb2zt4GPOfV3CdAv8RBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYPo9dwnsHG9Opz7FPp1fHYz46tvzvKVvSAKTB/KpHFooorJKpkiDk000rqS5g+kymin9bVtuDlkMZlGK6TV5lDGlBpd7fqbQxYzqrtCKm8OZcyr7vWvGYcyelBxCtXiUEY/as2iThzK6E2ViVSIQxl9Gj+XsXEoo2cjp+Mre6JRcVgb/Rszo/I4lLEUxZNyWyEqjMPaWJayeZXEoYwlKpia2wqROIgGx+GeslxDZ2dzEImDaFgc7ilLN2iCNgeROIjEQTQgDg8c6+Hlc7Q5iMRBJA4icRCJg0gcROIgEgfR/H9NsNjF5e3d/UPrV9nf3VqdHrV+lT7ZHETiIBIHkTiIFvxAen5y8OzPf//5++HT1dCjrU6P9ne3xp7TerE5iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDaMH/NaFn33/8+vL159OfvH2z9/H9u7nOp4zNQSQOInEQiYNIHETiIBIHkTiIxEEkDqIFf3x+cXl7d/9Q62hnn7/VOtTasDmIxEEkDiJxEC34gfT85GDuU1hzNgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iAbEcXx20+48mMzL52hzEImDSBxEw+Lw2LF0gyZocxCJg2hwHO4syzV0djYHkTiISuJwZ1migqkVbg59LEvZvNxWiMrjsDyWonhSozaHPvo3ZkZuK0Rj47A8ejZyOhU2hz76NH4udW4r+uhNlYlUe+bQRz9qzaLmA6k+elBxCpV/W9HHvOpe/83tnb2Kh3t0vTpscViSFm/LVp9zWCFTanS1W22OR1ZIU03fhM0/IbVC2ml9bZtvjqdskSome79NGscjlRSYfgfPE8dTQvmPeW/K88dBt3xlTyQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImD6B9qgZoFVIuuGQAAAABJRU5ErkJggg==">
+<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADdklEQVR4nO3doU4cURiGYWh6AQiCIAhuoL4pDoHhHhpkLWngCqpYUVvJBdQRTJPiEA212DpkRVVtHUHwNcyZc2bObJ5HImYn87/7z7CbwOb2zt4GPOfV3CdAv8RBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYPo9dwnsHG9Opz7FPp1fHYz46tvzvKVvSAKTB/KpHFooorJKpkiDk000rqS5g+kymin9bVtuDlkMZlGK6TV5lDGlBpd7fqbQxYzqrtCKm8OZcyr7vWvGYcyelBxCtXiUEY/as2iThzK6E2ViVSIQxl9Gj+XsXEoo2cjp+Mre6JRcVgb/Rszo/I4lLEUxZNyWyEqjMPaWJayeZXEoYwlKpia2wqROIgGx+GeslxDZ2dzEImDaFgc7ilLN2iCNgeROIjEQTQgDg8c6+Hlc7Q5iMRBJA4icRCJg0gcROIgEgfR/H9NsNjF5e3d/UPrV9nf3VqdHrV+lT7ZHETiIBIHkTiIFvxAen5y8OzPf//5++HT1dCjrU6P9ne3xp7TerE5iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDaMH/NaFn33/8+vL159OfvH2z9/H9u7nOp4zNQSQOInEQiYNIHETiIBIHkTiIxEEkDqIFf3x+cXl7d/9Q62hnn7/VOtTasDmIxEEkDiJxEC34gfT85GDuU1hzNgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iAbEcXx20+48mMzL52hzEImDSBxEw+Lw2LF0gyZocxCJg2hwHO4syzV0djYHkTiISuJwZ1migqkVbg59LEvZvNxWiMrjsDyWonhSozaHPvo3ZkZuK0Rj47A8ejZyOhU2hz76NH4udW4r+uhNlYlUe+bQRz9qzaLmA6k+elBxCpV/W9HHvOpe/83tnb2Kh3t0vTpscViSFm/LVp9zWCFTanS1W22OR1ZIU03fhM0/IbVC2ml9bZtvjqdskSome79NGscjlRSYfgfPE8dTQvmPeW/K88dBt3xlTyQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImD6B9qgZoFVIuuGQAAAABJRU5ErkJggg==">
+
+<style>
+body { margin: 0; background: #14161c; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<!-- Ledger — a private lending dashboard -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  #ledger-app, #ledger-app * { box-sizing: border-box; }
+
+  #ledger-app {
+    --bg: #14161c;
+    --surface: #1c1f28;
+    --surface-2: #242833;
+    --surface-3: #2c303d;
+    --ink: #edebe2;
+    --ink-dim: #b7b6ac;
+    --muted: #83879450;
+    --muted-solid: #888c99;
+    --brass: #c9a15e;
+    --brass-soft: #c9a15e26;
+    --sage: #86ab97;
+    --sage-soft: #86ab9722;
+    --clay: #c98462;
+    --clay-soft: #c9846222;
+    --rule: #333748;
+    --radius: 12px;
+    --radius-sm: 7px;
+
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    position: relative;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+
+  #ledger-app .mono { font-family: 'IBM Plex Mono', monospace; }
+  #ledger-app .serif { font-family: 'Fraunces', serif; }
+
+  /* ---------- Sidebar ---------- */
+  #ledger-app .sidebar {
+    width: 216px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--rule);
+    display: flex;
+    flex-direction: column;
+    padding: 22px 14px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+  }
+  #ledger-app .brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 4px 8px 22px 8px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 18px;
+  }
+  #ledger-app .brand-mark {
+    width: 30px; height: 30px;
+    border-radius: 7px;
+    background: linear-gradient(155deg, var(--brass), #8a7141);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 700; color: #1a1508;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  #ledger-app .brand-name { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; letter-spacing: 0.2px; }
+  #ledger-app .brand-sub { font-size: 10.5px; color: var(--muted-solid); letter-spacing: 0.6px; text-transform: uppercase; margin-top: -2px; }
+
+  #ledger-app .nav-group { display: flex; flex-direction: column; gap: 3px; }
+  #ledger-app .nav-item {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    color: var(--ink-dim);
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 500;
+    border: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    transition: background .12s ease, color .12s ease;
+  }
+  #ledger-app .nav-item svg { flex-shrink: 0; opacity: .85; }
+  #ledger-app .nav-item:hover { background: var(--surface-2); color: var(--ink); }
+  #ledger-app .nav-item.active { background: var(--brass-soft); color: var(--brass); }
+  #ledger-app .nav-item.active svg { opacity: 1; }
+  #ledger-app .nav-count {
+    margin-left: auto;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted-solid);
+    background: var(--surface-3);
+    padding: 1px 6px;
+    border-radius: 20px;
+  }
+  #ledger-app .nav-item.active .nav-count { color: var(--brass); background: #c9a15e30; }
+
+  #ledger-app .sidebar-footer { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--rule); }
+  #ledger-app .btn-new {
+    width: 100%;
+    background: var(--brass);
+    color: #1e1608;
+    border: none;
+    padding: 11px 14px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 13.5px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: filter .12s ease;
+  }
+  #ledger-app .btn-new:hover { filter: brightness(1.08); }
+
+  /* ---------- Main ---------- */
+  #ledger-app .main { flex: 1; min-width: 0; padding: 34px 40px 100px 40px; }
+  #ledger-app .main-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 26px; flex-wrap: wrap; gap: 14px; }
+  #ledger-app .page-title { font-family: 'Fraunces', serif; font-size: 27px; font-weight: 600; }
+  #ledger-app .page-sub { color: var(--muted-solid); font-size: 13px; margin-top: 3px; }
+
+  #ledger-app .view { display: none; }
+  #ledger-app .view.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to {opacity:1; transform:none;} }
+
+  /* stat cards */
+  #ledger-app .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 30px; }
+  #ledger-app .stat-card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 16px 18px; }
+  #ledger-app .stat-label { font-size: 11.5px; color: var(--muted-solid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  #ledger-app .stat-value { font-family: 'IBM Plex Mono', monospace; font-size: 21px; font-weight: 600; }
+  #ledger-app .stat-value.brass { color: var(--brass); }
+  #ledger-app .stat-value.sage { color: var(--sage); }
+  #ledger-app .stat-footnote { font-size: 11px; color: var(--muted-solid); margin-top: 8px; }
+
+  #ledger-app .reminder-card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 640px;
+    flex-wrap: wrap;
+  }
+  #ledger-app .reminder-title { font-family: 'Fraunces', serif; font-size: 15.5px; font-weight: 600; margin-bottom: 5px; }
+  #ledger-app .reminder-sub { font-size: 12px; color: var(--muted-solid); max-width: 360px; line-height: 1.5; }
+
+  #ledger-app .section-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted-solid); margin: 26px 0 12px 0; font-weight: 600; }
+  #ledger-app .section-label:first-child { margin-top: 0; }
+
+  /* master / detail (active loans by name) */
+  #ledger-app .master-detail { display: flex; gap: 26px; align-items: flex-start; }
+  #ledger-app .loan-list-col { width: 260px; flex-shrink: 0; border-right: 1px solid var(--rule); padding-right: 18px; }
+  #ledger-app .loan-list { display: flex; flex-direction: column; gap: 4px; }
+  #ledger-app .loan-list-item {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 11px 13px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  #ledger-app .loan-list-item:hover { background: var(--surface-2); }
+  #ledger-app .loan-list-item.selected { background: var(--brass-soft); border-color: #c9a15e40; }
+  #ledger-app .loan-list-item.selected .llname { color: var(--brass); }
+  #ledger-app .llname { font-weight: 600; font-size: 13.5px; }
+  #ledger-app .llmeta { font-size: 11px; color: var(--muted-solid); margin-top: 2px; font-family: 'IBM Plex Mono', monospace; }
+  #ledger-app .llprogress { font-size: 10.5px; color: var(--muted-solid); font-family: 'IBM Plex Mono', monospace; white-space: nowrap; }
+
+  #ledger-app .loan-detail-col { flex: 1; min-width: 0; }
+  #ledger-app .empty-detail {
+    text-align: center; padding: 70px 20px; color: var(--muted-solid);
+    border: 1.5px dashed var(--rule); border-radius: var(--radius);
+  }
+  #ledger-app .empty-detail .serif { font-size: 18px; color: var(--ink-dim); display: block; margin-bottom: 6px; }
+  #ledger-app .btn-back {
+    display: none;
+    align-items: center; gap: 6px;
+    background: none; border: none; color: var(--muted-solid);
+    font-size: 13px; font-weight: 500; cursor: pointer;
+    padding: 0 0 16px 0;
+  }
+
+  /* the detail panel re-uses loan-card styling but full width, no border */
+  #ledger-app .detail-content .loan-card { border: none; padding: 0; background: transparent; }
+  #ledger-app .detail-content .loan-name { font-size: 22px; }
+  #ledger-app .detail-content .loan-figures { grid-template-columns: repeat(4, 1fr); }
+  #ledger-app .detail-content .ticks .tick { width: 20px; height: 20px; }
+  #ledger-app .detail-content .loan-actions { max-width: 320px; }
+
+  /* loan grid + card */
+  #ledger-app .loan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  #ledger-app .loan-card { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; }
+  #ledger-app .loan-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  #ledger-app .loan-name { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; }
+  #ledger-app .loan-meta { font-size: 12px; color: var(--muted-solid); margin-top: 2px; }
+  #ledger-app .officer-tag {
+    display: inline-block; margin-left: 9px; vertical-align: middle;
+    font-family: 'Inter', sans-serif; font-size: 10.5px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px; letter-spacing: .2px;
+    border: 1px solid transparent;
+  }
+  #ledger-app .lender-tag {
+    display: inline-block; margin-left: 6px; vertical-align: middle;
+    font-family: 'Inter', sans-serif; font-size: 10.5px; font-weight: 600;
+    padding: 3px 8px; border-radius: 20px; letter-spacing: .2px;
+    border: 1px solid transparent;
+  }
+  #ledger-app .officer-filter { display: flex; gap: 7px; margin-bottom: 18px; flex-wrap: wrap; }
+  #ledger-app .officer-pill {
+    padding: 7px 14px; border-radius: 20px; border: 1px solid var(--rule);
+    background: var(--surface); color: var(--ink-dim);
+    font-size: 12.5px; font-weight: 500; cursor: pointer;
+  }
+  #ledger-app .officer-pill:hover { background: var(--surface-2); }
+  #ledger-app .officer-pill.selected { background: var(--brass-soft); border-color: #c9a15e50; color: var(--brass); }
+  #ledger-app .status-pill { font-size: 10.5px; padding: 3px 9px; border-radius: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; white-space: nowrap; }
+  #ledger-app .status-pill.active { background: var(--sage-soft); color: var(--sage); }
+  #ledger-app .status-pill.completed { background: var(--clay-soft); color: var(--clay); }
+
+  #ledger-app .loan-figures { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; padding: 12px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  #ledger-app .fig-label { font-size: 10.5px; color: var(--muted-solid); text-transform: uppercase; letter-spacing: .4px; }
+  #ledger-app .fig-value { font-family: 'IBM Plex Mono', monospace; font-size: 14px; margin-top: 2px; }
+
+  #ledger-app .installment-block { display: flex; flex-direction: column; gap: 7px; }
+  #ledger-app .installment-head { display: flex; justify-content: space-between; align-items: center; font-size: 11.5px; color: var(--muted-solid); }
+  #ledger-app .installment-head span.count { font-family: 'IBM Plex Mono', monospace; color: var(--ink-dim); }
+  #ledger-app .ticks { display: flex; flex-wrap: wrap; gap: 10px 8px; }
+  #ledger-app .tick-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  #ledger-app .tick {
+    width: 15px; height: 15px;
+    border-radius: 4px;
+    border: 1.4px solid var(--rule);
+    background: transparent;
+    padding: 0;
+    transition: background .1s ease, border-color .1s ease;
+    flex-shrink: 0;
+  }
+  #ledger-app .tick.paid { background: var(--brass); border-color: var(--brass); }
+  #ledger-app .tick-date { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; color: var(--muted-solid); white-space: nowrap; }
+  #ledger-app .tick-item.paid .tick-date { color: var(--brass); }
+  #ledger-app .detail-content .tick-date { font-size: 11px; }
+
+  #ledger-app .lumpsum-row { display: flex; align-items: center; justify-content: space-between; }
+  #ledger-app .lumpsum-tag { font-size: 12px; color: var(--ink-dim); }
+
+  #ledger-app .payment-log { display: flex; flex-direction: column; gap: 6px; }
+  #ledger-app .payment-row {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 9px 11px;
+  }
+  #ledger-app .payment-amount { font-size: 13px; color: var(--sage); }
+  #ledger-app .payment-meta { font-size: 11px; color: var(--muted-solid); margin-top: 2px; }
+  #ledger-app .payment-delete {
+    background: none; border: none; color: var(--muted-solid);
+    font-size: 17px; line-height: 1; cursor: pointer; padding: 4px 6px;
+    border-radius: 5px;
+  }
+  #ledger-app .payment-delete:hover { color: var(--clay); background: var(--clay-soft); }
+
+  #ledger-app .loan-actions { display: flex; gap: 8px; margin-top: 2px; }
+  #ledger-app .btn-sm {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--rule);
+    background: var(--surface-2);
+    color: var(--ink-dim);
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background .12s ease, color .12s ease, border-color .12s ease;
+  }
+  #ledger-app .btn-sm:hover { background: var(--surface-3); color: var(--ink); }
+  #ledger-app .btn-sm.brass { color: var(--brass); border-color: #c9a15e40; }
+  #ledger-app .btn-sm.brass:hover { background: var(--brass-soft); }
+  #ledger-app .btn-sm.clay { color: var(--clay); border-color: #c9846240; }
+  #ledger-app .btn-sm.clay:hover { background: var(--clay-soft); }
+  #ledger-app .btn-sm.sage { color: var(--sage); border-color: #86ab9740; }
+  #ledger-app .btn-sm.sage:hover { background: var(--sage-soft); }
+
+  #ledger-app .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted-solid);
+    border: 1.5px dashed var(--rule);
+    border-radius: var(--radius);
+  }
+  #ledger-app .empty-state .serif { font-size: 18px; color: var(--ink-dim); display: block; margin-bottom: 6px; }
+
+  /* ---------- Modal ---------- */
+  #ledger-app .modal-backdrop {
+    position: fixed; inset: 0;
+    background: #0a0b0ecc;
+    display: flex; align-items: flex-start; justify-content: center;
+    padding: 40px 16px;
+    overflow-y: auto;
+    z-index: 50;
+  }
+  #ledger-app .modal-backdrop.hidden { display: none; }
+  #ledger-app .modal {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 460px;
+    padding: 26px 26px 22px 26px;
+  }
+  #ledger-app .modal-title { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin-bottom: 4px; }
+  #ledger-app .modal-sub { font-size: 12.5px; color: var(--muted-solid); margin-bottom: 20px; }
+  #ledger-app .field { margin-bottom: 15px; }
+  #ledger-app .field label { display: block; font-size: 12px; color: var(--ink-dim); margin-bottom: 6px; font-weight: 500; }
+  #ledger-app .field input, #ledger-app .field select {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    color: var(--ink);
+    padding: 10px 11px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-family: 'Inter', sans-serif;
+  }
+  #ledger-app .field input:focus, #ledger-app .field select:focus { outline: none; border-color: var(--brass); }
+  #ledger-app .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  #ledger-app .field-row.three { grid-template-columns: 1.2fr 0.8fr; }
+
+  #ledger-app .radio-row { display: flex; gap: 10px; }
+  #ledger-app .radio-pill {
+    flex: 1;
+    text-align: center;
+    padding: 10px 8px;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+  #ledger-app .radio-pill.selected { border-color: var(--brass); color: var(--brass); background: var(--brass-soft); }
+
+  #ledger-app .modal-actions { display: flex; gap: 10px; margin-top: 22px; }
+  #ledger-app .btn-cancel, #ledger-app .btn-save {
+    flex: 1; padding: 11px; border-radius: var(--radius-sm); border: none; font-weight: 600; font-size: 13.5px; cursor: pointer;
+  }
+  #ledger-app .btn-cancel { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--rule); }
+  #ledger-app .btn-save { background: var(--brass); color: #1e1608; }
+  #ledger-app .btn-save:hover { filter: brightness(1.08); }
+
+  #ledger-app .preview-box {
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+  #ledger-app .checkbox-field {
+    display: flex; align-items: center; gap: 10px;
+    padding: 11px 13px;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    margin-bottom: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-dim);
+  }
+  #ledger-app .checkbox-field input { width: 15px; height: 15px; accent-color: var(--brass); flex-shrink: 0; cursor: pointer; }
+  #ledger-app .checkbox-field:has(input:checked) { border-color: #c9a15e50; color: var(--ink); }
+
+  /* today's collections */
+  #ledger-app .collection-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  #ledger-app .collection-item .llname { font-size: 14px; }
+  #ledger-app .collection-item .llmeta { margin-top: 3px; }
+  #ledger-app .collection-amount { font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: var(--brass); font-weight: 600; }
+  #ledger-app .message-box {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-dim);
+    white-space: pre-wrap;
+    max-width: 460px;
+    margin-bottom: 16px;
+    line-height: 1.6;
+  }
+  #ledger-app .today-actions { display: flex; gap: 10px; margin-bottom: 14px; }
+  #ledger-app .today-note { font-size: 11.5px; color: var(--muted-solid); max-width: 460px; line-height: 1.5; }
+
+  /* calendar */
+  #ledger-app .calendar-wrap { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+  #ledger-app .calendar-card { width: 340px; flex-shrink: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px; }
+  #ledger-app .calendar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  #ledger-app .cal-nav {
+    background: var(--surface-2); border: 1px solid var(--rule); color: var(--ink-dim);
+    width: 28px; height: 28px; border-radius: 6px; cursor: pointer; font-size: 17px;
+    display: flex; align-items: center; justify-content: center; line-height: 1;
+  }
+  #ledger-app .cal-nav:hover { background: var(--surface-3); color: var(--ink); }
+  #ledger-app .cal-month-label { font-family: 'Fraunces', serif; font-weight: 600; font-size: 15.5px; }
+  #ledger-app .cal-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; font-size: 10px; color: var(--muted-solid); margin-bottom: 7px; text-transform: uppercase; letter-spacing: .3px; }
+  #ledger-app .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  #ledger-app .cal-day {
+    aspect-ratio: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    border-radius: 7px; font-size: 12px; color: var(--ink-dim);
+    cursor: pointer; border: 1.4px solid transparent;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  #ledger-app .cal-day.empty { visibility: hidden; cursor: default; }
+  #ledger-app .cal-day:not(.empty):hover { background: var(--surface-2); }
+  #ledger-app .cal-day.today { border-color: var(--brass); color: var(--brass); }
+  #ledger-app .cal-day.selected { background: var(--brass-soft); border-color: var(--brass); color: var(--brass); }
+  #ledger-app .cal-day-dot { width: 5px; height: 5px; border-radius: 50%; margin-top: 3px; background: var(--sage); }
+  #ledger-app .cal-day-dot.overdue { background: var(--clay); }
+  #ledger-app .cal-legend { display: flex; gap: 16px; margin-top: 14px; font-size: 11px; color: var(--muted-solid); flex-wrap: wrap; }
+  #ledger-app .cal-legend span { display: flex; align-items: center; gap: 6px; }
+  #ledger-app .cal-legend .cal-day-dot { margin-top: 0; }
+  #ledger-app .calendar-detail { flex: 1; min-width: 260px; }
+
+
+  #ledger-app .hidden { display: none !important; }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 780px) {
+    #ledger-app { flex-direction: column; }
+    #ledger-app .sidebar {
+      position: fixed; bottom: 0; left: 0; right: 0; top: auto;
+      width: 100%; height: auto;
+      flex-direction: row;
+      align-items: center;
+      padding: 8px 10px;
+      border-right: none;
+      border-top: 1px solid var(--rule);
+      z-index: 40;
+    }
+    #ledger-app .brand, #ledger-app .sidebar-footer { display: none; }
+    #ledger-app .nav-group { flex-direction: row; width: 100%; justify-content: space-around; }
+    #ledger-app .nav-item { flex-direction: column; gap: 3px; font-size: 10px; padding: 6px 8px; text-align: center; }
+    #ledger-app .nav-item .nav-count { display: none; }
+    #ledger-app .main { padding: 22px 16px 90px 16px; }
+    #ledger-app .fab-mobile {
+      position: fixed; right: 16px; bottom: 74px;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--brass); color: #1e1608;
+      border: none; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 18px #00000060;
+      z-index: 41; cursor: pointer;
+    }
+    #ledger-app .stats-row { grid-template-columns: 1fr 1fr; }
+    #ledger-app .field-row { grid-template-columns: 1fr; }
+
+    #ledger-app .master-detail { display: block; }
+    #ledger-app .loan-list-col { width: 100%; border-right: none; padding-right: 0; }
+    #ledger-app .loan-detail-col { display: none; }
+    #ledger-app .btn-back { display: flex; }
+    #ledger-app.detail-open .loan-list-col { display: none; }
+    #ledger-app.detail-open .loan-detail-col { display: block; }
+    #ledger-app .detail-content .loan-figures { grid-template-columns: 1fr 1fr; }
+    #ledger-app .calendar-card { width: 100%; }
+  }
+  @media (min-width: 781px) {
+    #ledger-app .fab-mobile { display: none; }
+  }
+</style>
+
+<div id="ledger-app">
+
+  <nav class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name">Ledger</div>
+        <div class="brand-sub">Loan Book</div>
+      </div>
+    </div>
+    <div class="nav-group">
+      <button class="nav-item active" data-view="overview">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Overview
+      </button>
+      <button class="nav-item" data-view="today">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        Today
+        <span class="nav-count" id="count-today">0</span>
+      </button>
+      <button class="nav-item" data-view="calendar">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><circle cx="8" cy="14" r="1"/><circle cx="12" cy="14" r="1"/><circle cx="16" cy="14" r="1"/></svg>
+        Calendar
+      </button>
+      <button class="nav-item" data-view="active">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        Active Loans
+        <span class="nav-count" id="count-active">0</span>
+      </button>
+      <button class="nav-item" data-view="completed">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+        Completed
+        <span class="nav-count" id="count-completed">0</span>
+      </button>
+      <button class="nav-item" data-view="cc">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2.5"/><path d="M2 10h20"/></svg>
+        CC Installments
+        <span class="nav-count" id="count-cc">0</span>
+      </button>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn-new" id="btn-open-add">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+        New Loan
+      </button>
+    </div>
+  </nav>
+
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <section class="view active" id="view-overview">
+      <div class="main-header">
+        <div>
+          <div class="page-title">Overview</div>
+          <div class="page-sub">Your totals, at a glance</div>
+        </div>
+      </div>
+
+      <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="stat-card">
+          <div class="stat-label">Total out</div>
+          <div class="stat-value mono" id="stat-total-out">$0</div>
+          <div class="stat-footnote" id="stat-total-out-sub">0 active loans</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Owed to me</div>
+          <div class="stat-value brass mono" id="stat-owed">$0</div>
+          <div class="stat-footnote">Principal + interest still outstanding</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Today's collections</div>
+          <div class="stat-value sage mono" id="stat-today-overview">$0</div>
+          <div class="stat-footnote" id="stat-today-overview-sub">Nothing due today</div>
+        </div>
+      </div>
+
+      <div class="section-label hidden" id="lender-breakdown-label">By master lender</div>
+      <div class="loan-grid" id="lender-breakdown-grid"></div>
+
+      <div class="section-label">Reminders</div>
+      <div class="reminder-card">
+        <div>
+          <div class="reminder-title">Add collection dates to your calendar</div>
+          <div class="reminder-sub">Every upcoming (and any overdue) due date, with an alarm attached. Import once — re-export any time you add new loans.</div>
+        </div>
+        <button class="btn-new" id="btn-export-ics-overview" style="width: auto; padding: 11px 20px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/><path d="M9 14l2 2 4-4"/></svg>
+          Export calendar
+        </button>
+      </div>
+
+      <div class="section-label">Backup &amp; export</div>
+      <div class="reminder-card">
+        <div>
+          <div class="reminder-title">Back up your loan book</div>
+          <div class="reminder-sub">Your data lives in this browser only — a backup file is your safety net if the browser data ever gets cleared. Restore brings everything back exactly as it was.</div>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button class="btn-new" id="btn-export-backup" style="width: auto; padding: 11px 20px;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+            Backup (.json)
+          </button>
+          <button class="btn-sm" id="btn-import-backup" style="flex: none; padding: 11px 20px;">Restore backup</button>
+          <input type="file" id="f-restore-file" accept=".json" class="hidden" />
+        </div>
+      </div>
+      <div class="reminder-card" style="margin-top: 14px;">
+        <div>
+          <div class="reminder-title">Export for a spreadsheet</div>
+          <div class="reminder-sub">A CSV of every loan &mdash; principal, interest, balance owed, status &mdash; to open in Excel, Sheets, or Numbers.</div>
+        </div>
+        <button class="btn-sm" id="btn-export-csv" style="flex: none; padding: 11px 20px;">Export (.csv)</button>
+      </div>
+      <div class="reminder-card" style="margin-top: 14px;">
+        <div>
+          <div class="reminder-title">Full Excel report</div>
+          <div class="reminder-sub">A proper workbook: an overview tab, active loans, completed loans, and a full payments log &mdash; each on its own sheet.</div>
+        </div>
+        <button class="btn-new" id="btn-export-xlsx" style="width: auto; padding: 11px 20px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13l6 6M15 13l-6 6"/></svg>
+          Excel report (.xlsx)
+        </button>
+      </div>
+    </section>
+
+    <!-- TODAY -->
+    <section class="view" id="view-today">
+      <div class="main-header">
+        <div>
+          <div class="page-title">Today's Collections</div>
+          <div class="page-sub" id="today-date-sub">—</div>
+        </div>
+      </div>
+
+      <div class="stats-row" style="grid-template-columns: repeat(2, 1fr); max-width: 460px;">
+        <div class="stat-card">
+          <div class="stat-label">Due today</div>
+          <div class="stat-value brass mono" id="today-total">$0</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Borrowers</div>
+          <div class="stat-value mono" id="today-count">0</div>
+        </div>
+      </div>
+
+      <div class="section-label">Breakdown</div>
+      <div id="today-list"></div>
+
+      <div class="section-label">Text message</div>
+      <div class="message-box" id="today-message-preview">No collections due today.</div>
+      <div class="field" style="max-width: 320px;">
+        <label>Your phone number (optional, saved on this device)</label>
+        <input type="text" id="f-my-phone" placeholder="e.g. 09171234567" />
+      </div>
+      <div class="today-actions">
+        <button class="btn-sm brass" id="btn-copy-message" style="flex: none; padding: 10px 18px;">Copy message</button>
+        <button class="btn-sm sage" id="btn-open-sms" style="flex: none; padding: 10px 18px;">Open in Messages</button>
+      </div>
+      <div class="today-note">This drafts the message and opens your phone's Messages app to send &mdash; it works when you open this dashboard on your phone. There's no way for a browser file to send a text on its own without you tapping send.</div>
+
+      <div class="section-label">Calendar reminders</div>
+      <div class="today-actions">
+        <button class="btn-sm brass" id="btn-export-ics" style="flex: none; padding: 10px 18px;">Export upcoming due dates (.ics)</button>
+      </div>
+      <div class="today-note">Downloads a calendar file with every unpaid due date, each named with the borrower and amount. Import it once into Google Calendar or Apple Calendar and it'll alarm you on the day &mdash; re-export any time you add new loans to pick up the new dates.</div>
+    </section>
+
+    <!-- CALENDAR -->
+    <section class="view" id="view-calendar">
+      <div class="main-header">
+        <div>
+          <div class="page-title">Calendar</div>
+          <div class="page-sub">Every collection date, mapped out</div>
+        </div>
+      </div>
+      <div class="calendar-wrap">
+        <div class="calendar-card">
+          <div class="calendar-head">
+            <button class="cal-nav" id="cal-prev">&lsaquo;</button>
+            <div class="cal-month-label" id="cal-month-label">—</div>
+            <button class="cal-nav" id="cal-next">&rsaquo;</button>
+          </div>
+          <div class="cal-weekdays">
+            <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+          </div>
+          <div class="cal-grid" id="cal-grid"></div>
+          <div class="cal-legend">
+            <span><span class="cal-day-dot due"></span> Due</span>
+            <span><span class="cal-day-dot overdue"></span> Overdue &amp; unpaid</span>
+          </div>
+        </div>
+        <div class="calendar-detail">
+          <div class="section-label" id="cal-detail-label">Select a day</div>
+          <div id="cal-detail-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE -->
+    <section class="view" id="view-active">
+      <div class="main-header">
+        <div>
+          <div class="page-title">Active Loans</div>
+          <div class="page-sub">Pick a borrower to see the full loan</div>
+        </div>
+      </div>
+      <div class="officer-filter hidden" id="officer-filter"></div>
+      <div class="officer-filter hidden" id="lender-filter"></div>
+      <div class="master-detail" id="active-master-detail">
+        <div class="loan-list-col" id="active-list-col">
+          <div class="loan-list" id="active-loan-list"></div>
+        </div>
+        <div class="loan-detail-col" id="active-detail-col">
+          <button class="btn-back" id="active-back-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+            All active loans
+          </button>
+          <div class="empty-detail" id="active-empty-detail">
+            <span class="serif">No loan selected</span>
+            Choose a borrower on the left to view terms, track installments, or mark it complete.
+          </div>
+          <div class="detail-content hidden" id="active-detail-content"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLETED -->
+    <section class="view" id="view-completed">
+      <div class="main-header">
+        <div>
+          <div class="page-title">Completed Loans</div>
+          <div class="page-sub">Renew on the same terms, or clear them out</div>
+        </div>
+      </div>
+      <div class="officer-filter hidden" id="officer-filter-completed"></div>
+      <div class="officer-filter hidden" id="lender-filter-completed"></div>
+      <div class="loan-grid" id="grid-completed"></div>
+    </section>
+
+    <!-- CC INSTALLMENTS -->
+    <section class="view" id="view-cc">
+      <div class="main-header">
+        <div>
+          <div class="page-title">CC Installments</div>
+          <div class="page-sub">Credit card purchases paid off in installments</div>
+        </div>
+        <button class="btn-new" id="btn-open-add-cc" style="width: auto; padding: 11px 20px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+          New Installment
+        </button>
+      </div>
+      <div class="master-detail" id="cc-master-detail">
+        <div class="loan-list-col" id="cc-list-col">
+          <div class="loan-list" id="cc-loan-list"></div>
+        </div>
+        <div class="loan-detail-col" id="cc-detail-col">
+          <button class="btn-back" id="cc-back-btn">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 18l-6-6 6-6"/></svg>
+            All CC installments
+          </button>
+          <div class="empty-detail" id="cc-empty-detail">
+            <span class="serif">No purchase selected</span>
+            Choose a purchase on the left to view terms, track installments, or mark it complete.
+          </div>
+          <div class="detail-content hidden" id="cc-detail-content"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <button class="fab-mobile" id="btn-open-add-mobile">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+
+  <!-- ADD / EDIT MODAL -->
+  <div class="modal-backdrop hidden" id="modal-backdrop">
+    <div class="modal">
+      <div class="modal-title" id="modal-title">New Loan</div>
+      <div class="modal-sub">Fill in the terms of the loan</div>
+
+      <div class="field">
+        <label>Borrower name</label>
+        <input type="text" id="f-borrower" placeholder="e.g. Maria Santos" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Loan officer (optional)</label>
+          <input type="text" id="f-officer" placeholder="e.g. Ghen, Divine" list="officer-suggestions" />
+          <datalist id="officer-suggestions"></datalist>
+        </div>
+        <div class="field">
+          <label>Master lender (optional)</label>
+          <input type="text" id="f-lender" placeholder="e.g. Joan, Josh" list="lender-suggestions" />
+          <datalist id="lender-suggestions"></datalist>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Principal amount</label>
+          <input type="number" id="f-principal" placeholder="0.00" min="0" step="0.01" />
+        </div>
+        <div class="field">
+          <label>Interest %</label>
+          <input type="number" id="f-interest" placeholder="0" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="field-row three">
+        <div class="field">
+          <label>Length of loan</label>
+          <input type="number" id="f-length" placeholder="0" min="1" step="1" />
+        </div>
+        <div class="field">
+          <label>Unit</label>
+          <select id="f-length-unit">
+            <option value="days">Days</option>
+            <option value="weeks" selected>Weeks</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Starting date</label>
+        <input type="date" id="f-start-date" />
+      </div>
+
+      <div class="field">
+        <label>Payout</label>
+        <div class="radio-row">
+          <div class="radio-pill selected" data-payout="lumpsum">Lump sum</div>
+          <div class="radio-pill" data-payout="installments">Installments</div>
+        </div>
+      </div>
+
+      <div class="field-row" id="installment-fields">
+        <div class="field">
+          <label>Frequency</label>
+          <select id="f-frequency">
+            <option value="weekly">Weekly</option>
+            <option value="biweekly">Every 2 weeks</option>
+            <option value="every15days">Every 15 days</option>
+            <option value="monthly" selected>Monthly</option>
+          </select>
+        </div>
+        <div class="field">
+          <label># of installments</label>
+          <input type="number" id="f-installment-count" min="1" step="1" />
+        </div>
+      </div>
+
+      <div class="preview-box" id="preview-box">
+        <span>Total repayment</span>
+        <span id="preview-total">$0.00</span>
+      </div>
+
+      <label class="checkbox-field">
+        <input type="checkbox" id="f-already-paid" />
+        <span>Already paid in full &mdash; record this as completed</span>
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-cancel">Cancel</button>
+        <button class="btn-save" id="btn-save">Save loan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECORD PAYMENT MODAL -->
+  <div class="modal-backdrop hidden" id="payment-modal-backdrop">
+    <div class="modal">
+      <div class="modal-title">Record a payment</div>
+      <div class="modal-sub" id="payment-modal-name">&nbsp;</div>
+      <div class="preview-box" id="payment-modal-balance" style="margin-bottom: 18px;">Balance owed: $0.00</div>
+
+      <div class="field">
+        <label>Date received</label>
+        <input type="date" id="p-date" />
+      </div>
+      <div class="field">
+        <label>Amount</label>
+        <input type="number" id="p-amount" placeholder="0.00" min="0" step="0.01" />
+      </div>
+      <div class="field">
+        <label>Note (optional)</label>
+        <input type="text" id="p-note" placeholder="e.g. paid early, partial payment" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="btn-payment-cancel">Cancel</button>
+        <button class="btn-save" id="btn-payment-save">Save payment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD / EDIT CC INSTALLMENT MODAL -->
+  <div class="modal-backdrop hidden" id="cc-modal-backdrop">
+    <div class="modal">
+      <div class="modal-title" id="cc-modal-title">New Installment</div>
+      <div class="modal-sub">Fill in the terms of the purchase</div>
+
+      <div class="field">
+        <label>Name of the purchasee</label>
+        <input type="text" id="cc-f-purchasee" placeholder="e.g. Maria Santos" />
+      </div>
+
+      <div class="field">
+        <label>Item</label>
+        <input type="text" id="cc-f-item" placeholder="e.g. iPhone 15, Refrigerator" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Amount</label>
+          <input type="number" id="cc-f-amount" placeholder="0.00" min="0" step="0.01" />
+        </div>
+        <div class="field">
+          <label>Percentage</label>
+          <input type="number" id="cc-f-percentage" placeholder="0" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Term (# of 15-day installments)</label>
+          <input type="number" id="cc-f-term" placeholder="0" min="1" step="1" />
+        </div>
+        <div class="field">
+          <label>Starting date</label>
+          <input type="date" id="cc-f-start-date" />
+        </div>
+      </div>
+
+      <div class="preview-box" id="cc-preview-box">
+        <span>Amount installment per 15 days</span>
+        <span id="cc-preview-installment">$0.00</span>
+      </div>
+
+      <label class="checkbox-field">
+        <input type="checkbox" id="cc-f-already-paid" />
+        <span>Already paid in full &mdash; record this as completed</span>
+      </label>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cc-btn-cancel">Cancel</button>
+        <button class="btn-save" id="cc-btn-save">Save installment</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECORD CC PAYMENT MODAL -->
+  <div class="modal-backdrop hidden" id="cc-payment-modal-backdrop">
+    <div class="modal">
+      <div class="modal-title">Record a payment</div>
+      <div class="modal-sub" id="cc-payment-modal-name">&nbsp;</div>
+      <div class="preview-box" id="cc-payment-modal-balance" style="margin-bottom: 18px;">Balance owed: $0.00</div>
+
+      <div class="field">
+        <label>Date received</label>
+        <input type="date" id="cc-p-date" />
+      </div>
+      <div class="field">
+        <label>Amount</label>
+        <input type="number" id="cc-p-amount" placeholder="0.00" min="0" step="0.01" />
+      </div>
+      <div class="field">
+        <label>Note (optional)</label>
+        <input type="text" id="cc-p-note" placeholder="e.g. paid early, partial payment" />
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-cancel" id="cc-btn-payment-cancel">Cancel</button>
+        <button class="btn-save" id="cc-btn-payment-save">Save payment</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// when this file is opened outside of Claude (e.g. hosted on Netlify, opened
+// directly as a local file), window.storage doesn't exist — fall back to the
+// browser's own localStorage so the app saves data either way, with no other
+// code changes needed.
+if (!window.storage){
+  window.storage = {
+    async get(key){
+      try{
+        const raw = localStorage.getItem('ledger:' + key);
+        return raw === null ? null : { key, value: raw, shared: false };
+      }catch(e){ return null; }
+    },
+    async set(key, value){
+      try{
+        localStorage.setItem('ledger:' + key, value);
+        return { key, value, shared: false };
+      }catch(e){ return null; }
+    },
+    async delete(key){
+      try{
+        localStorage.removeItem('ledger:' + key);
+        return { key, deleted: true, shared: false };
+      }catch(e){ return null; }
+    },
+    async list(prefix){
+      try{
+        const p = 'ledger:' + (prefix || '');
+        const keys = [];
+        for (let i=0; i<localStorage.length; i++){
+          const k = localStorage.key(i);
+          if (k && k.startsWith(p)) keys.push(k.slice('ledger:'.length));
+        }
+        return { keys, prefix, shared: false };
+      }catch(e){ return null; }
+    }
+  };
+}
+(function(){
+  const app = document.getElementById('ledger-app');
+  let loans = [];
+  let editingId = null;
+  let payoutChoice = 'lumpsum';
+
+  const fmtMoney = (n) => '$' + (Number(n)||0).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2});
+  const uid = () => 'loan_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+
+  const unitDays = { days: 1, weeks: 7 };
+  const freqDays = { weekly: 7, biweekly: 14, every15days: 15, monthly: 30 };
+  const freqLabels = { weekly: 'Weekly', biweekly: 'Every 2 weeks', every15days: 'Every 15 days', monthly: 'Monthly' };
+
+  // ---------- dates ----------
+  function toISODate(d){
+    const yr = d.getFullYear();
+    const mo = String(d.getMonth()+1).padStart(2,'0');
+    const day = String(d.getDate()).padStart(2,'0');
+    return `${yr}-${mo}-${day}`;
+  }
+  function parseISODate(s){
+    const [y,m,d] = s.split('-').map(Number);
+    return new Date(y, m-1, d);
+  }
+  function addDays(date, n){ const d = new Date(date); d.setDate(d.getDate()+n); return d; }
+  function addMonths(date, n){ const d = new Date(date); d.setMonth(d.getMonth()+n); return d; }
+  function addInterval(start, freq, n){
+    if (freq === 'monthly') return addMonths(start, n);
+    return addDays(start, (freqDays[freq] || 7) * n);
+  }
+  function addDuration(start, length, unit){
+    return addDays(start, length * (unitDays[unit] || 7));
+  }
+  function isSameDay(a, b){
+    return a.getFullYear()===b.getFullYear() && a.getMonth()===b.getMonth() && a.getDate()===b.getDate();
+  }
+  function formatDatePretty(d){
+    return d.toLocaleDateString(undefined, {month:'short', day:'numeric', year:'numeric'});
+  }
+  function formatDateShort(d){
+    return d.toLocaleDateString(undefined, {month:'numeric', day:'numeric'});
+  }
+
+  // returns [{index, date, amount, ordinal, total}] for a loan's schedule
+  function getSchedule(loan){
+    if (!loan.startDate) return [];
+    const start = parseISODate(loan.startDate);
+    const totals = computeTotals(loan);
+    if (loan.payoutType === 'lumpsum'){
+      const due = addDuration(start, loan.length, loan.lengthUnit);
+      return [{ index: 0, date: due, amount: totals.total, ordinal: 'final', count: 1 }];
+    }
+    const out = [];
+    for (let i=0; i<loan.installmentCount; i++){
+      out.push({ index: i, date: addInterval(start, loan.frequency, i+1), amount: totals.perInstallment, ordinal: i+1, count: loan.installmentCount });
+    }
+    return out;
+  }
+
+  function computeTotals(loan){
+    const interestAmt = loan.principal * (loan.interestRate/100);
+    const total = loan.principal + interestAmt;
+    let perInstallment = 0;
+    if (loan.payoutType === 'installments' && loan.installmentCount > 0){
+      perInstallment = total / loan.installmentCount;
+    }
+    return { interestAmt, total, perInstallment };
+  }
+
+  // ---------- payments ledger ----------
+  // loan.payments = [{ id, date: 'YYYY-MM-DD', amount, note }]
+  // this is the single source of truth for how much has actually been collected,
+  // independent of the scheduled due dates — so an early/late/partial/off-schedule
+  // payment is recorded honestly rather than forced onto a schedule slot.
+  function totalPaid(loan){
+    return (loan.payments||[]).reduce((s,p) => s + (Number(p.amount)||0), 0);
+  }
+  function remainingBalance(loan){
+    const totals = computeTotals(loan);
+    return Math.max(0, totals.total - totalPaid(loan));
+  }
+  // interest earned spread evenly across the loan's term, expressed as a monthly rate —
+  // so loans of different lengths (12 days vs 45 days) can be compared on the same basis
+  function monthlyInterestRate(loan){
+    const totals = computeTotals(loan);
+    const termDays = (Number(loan.length)||0) * (unitDays[loan.lengthUnit] || 1);
+    if (!termDays) return 0;
+    return (totals.interestAmt / termDays) * 30;
+  }
+  // how many of the earliest scheduled installments are covered by payments so far (FIFO)
+  function paidCountFIFO(loan){
+    if (loan.payoutType !== 'installments' || !loan.installmentCount) return 0;
+    const totals = computeTotals(loan);
+    if (!totals.perInstallment) return 0;
+    return Math.min(loan.installmentCount, Math.floor((totalPaid(loan) + 0.005) / totals.perInstallment));
+  }
+  function isEntryPaid(loan, entry){
+    if (loan.payoutType === 'installments') return entry.index < paidCountFIFO(loan);
+    return remainingBalance(loan) <= 0.005;
+  }
+
+  function suggestInstallmentCount(length, unit, frequency){
+    const totalDays = (Number(length)||0) * (unitDays[unit]||30);
+    const per = freqDays[frequency] || 30;
+    return Math.max(1, Math.round(totalDays / per));
+  }
+
+  // ---------- storage ----------
+  async function loadLoans(){
+    try{
+      const res = await window.storage.get('loans', false);
+      loans = res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){
+      loans = [];
+    }
+    migrateLoans();
+    await seedCurrentDataIfNeeded();
+    renderAll();
+  }
+
+  // one-time seed of the full, current loan book — merged from two
+  // divergent devices' backups (49 loans total, all payments and statuses
+  // reconciled). Gated behind its own flag so it only ever runs once per
+  // browser/device; replaces any older, now-stale seed.
+  async function seedCurrentDataIfNeeded(){
+    try{
+      const flag = await window.storage.get('seed-2026-08-31-merged', false);
+      if (flag && flag.value) return;
+    }catch(e){ /* not set yet — proceed with import */ }
+
+    const seedLoans = [{"id":"loan_1788019428679_vkhk8i","borrower":"Ethel","officer":"","lender":"Josh","principal":10000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-30","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"status":"active","createdAt":1788019428679},{"id":"loan_1788002068547_g4kdv6","borrower":"Lusel","officer":"","lender":"Joan","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-29","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"status":"active","createdAt":1788002068547},{"id":"loan_1787982439641_kn01i8","borrower":"Germaine","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-29","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1787982439641},{"id":"loan_1787823885158_foj8d9","borrower":"Divine Sister","officer":"Divine","lender":"Joan","principal":10000,"interestRate":20,"length":34,"lengthUnit":"days","startDate":"2026-08-27","payoutType":"lumpsum","frequency":"monthly","installmentCount":1,"payments":[],"status":"active","createdAt":1787823885158},{"id":"loan_1787823756737_9ewei3","borrower":"Marie Jane","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-28","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"officer":"Ghen","lender":"Josh","status":"active","createdAt":1787823756737},{"id":"loan_1787823450619_xt5ag4","borrower":"Ghen","principal":40000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-08-28","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1787823450619},{"id":"loan_1787761123674_or5z5h","borrower":"Quenie Pineda","officer":"Divine","lender":"Joan","principal":5000,"interestRate":15,"length":15,"lengthUnit":"days","startDate":"2026-08-27","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[],"status":"active","createdAt":1787761123674},{"id":"loan_1787661157692_zdkph9","borrower":"Joana","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-26","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1787661157692},{"id":"loan_1787646198810_z59qxf","borrower":"Carizza Mae","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-26","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"officer":"Ghen","lender":"Josh","status":"active","createdAt":1787646198810},{"id":"loan_1787580245650_7r92qf","borrower":"Dhel 2","officer":"Ghen","lender":"Joan","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-25","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"status":"active","createdAt":1787580245650},{"id":"loan_1787537805816_uwth27","borrower":"Regie Tongol","officer":"Divine","lender":"Joan","principal":3000,"interestRate":15,"length":22,"lengthUnit":"days","startDate":"2026-08-24","payoutType":"lumpsum","frequency":"monthly","installmentCount":1,"payments":[],"status":"active","createdAt":1787537805816},{"id":"loan_1787452231111_rej413","borrower":"Darwin De Leon","officer":"Divine","lender":"Joan","principal":3000,"interestRate":15,"length":30,"lengthUnit":"days","startDate":"2026-08-23","payoutType":"installments","frequency":"every15days","installmentCount":2,"payments":[],"status":"active","createdAt":1787452231111},{"id":"loan_1787452094013_46z3wr","borrower":"Anadelyn 2","officer":"Ghen","lender":"Joan","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-23","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[],"status":"active","createdAt":1787452094013},{"id":"loan_1787267094655_x606h6","borrower":"Alex","officer":"","lender":"Joan","principal":15000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-08-21","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[],"status":"active","createdAt":1787267094655},{"id":"loan_1787208213208_p6hc8t","borrower":"Joel Yap","officer":"Divine","lender":"Joan","principal":3000,"interestRate":15,"length":19,"lengthUnit":"days","startDate":"2026-08-20","payoutType":"lumpsum","frequency":"monthly","installmentCount":1,"payments":[],"status":"active","createdAt":1787208213209},{"id":"loan_1787199710444_eoxchk","borrower":"DivinePersonal","officer":"Divine","lender":"Joan","principal":10000,"interestRate":15,"length":30,"lengthUnit":"days","startDate":"2026-08-20","payoutType":"installments","frequency":"every15days","installmentCount":2,"payments":[],"status":"active","createdAt":1787199710444},{"id":"loan_1787114923114_rvpj27","borrower":"Divine Aircon CC","officer":"Divine","lender":"Joan","principal":28400,"interestRate":30,"length":52,"lengthUnit":"weeks","startDate":"2026-08-19","payoutType":"installments","frequency":"every15days","installmentCount":24,"payments":[{"id":"loan_1787197868379_s5dls0","date":"2026-08-20","amount":36920,"note":"Marked complete"}],"status":"completed","createdAt":1787114923114},{"id":"loan_1787107545525_khm7jq","borrower":"Arrianne Gallegos","officer":"Ghen","lender":"Joan","principal":30000,"interestRate":15,"length":30,"lengthUnit":"days","startDate":"2026-08-19","payoutType":"installments","frequency":"every15days","installmentCount":2,"payments":[],"status":"active","createdAt":1787107545525},{"id":"loan_1787042238251_fdtko1","borrower":"Dhel","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-16","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1788147901929_50tfdd","date":"2026-08-31","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1787042238252},{"id":"loan_1787042116387_5gv34e","borrower":"Anadelyn","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-16","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1788147908274_lnc5b0","date":"2026-08-31","amount":12000,"note":""}],"officer":"Ghen","lender":"Josh","status":"active","createdAt":1787042116387},{"id":"loan_1787040905498_u26ydt","borrower":"Raquel","principal":10000,"interestRate":15,"length":30,"lengthUnit":"days","startDate":"2026-08-18","payoutType":"installments","frequency":"every15days","installmentCount":2,"payments":[],"officer":"Divine","lender":"Joan","status":"active","createdAt":1787040905498},{"id":"loan_1787040807730_iujeox","borrower":"Rowena","principal":5000,"interestRate":15,"length":30,"lengthUnit":"days","startDate":"2026-08-18","payoutType":"installments","frequency":"every15days","installmentCount":2,"payments":[],"officer":"Divine","lender":"Joan","status":"active","createdAt":1787040807730},{"id":"loan_1787040359936_dinn17","borrower":"Divine","principal":20000,"interestRate":15,"length":12,"lengthUnit":"days","startDate":"2026-08-18","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787040377268_0xn7lx","date":"2026-08-18","amount":23000,"note":"Marked complete"}],"officer":"Divine","lender":"Joan","status":"completed","createdAt":1787040359936},{"id":"loan_1787040351985_9h0bb8","borrower":"Marissa Pena","principal":15000,"interestRate":15,"length":18,"lengthUnit":"days","startDate":"2026-08-18","payoutType":"lumpsum","frequency":"every15days","installmentCount":2,"payments":[],"officer":"Divine","lender":"Joan","status":"active","createdAt":1787040351985},{"id":"loan_1787040226883_092zl0","borrower":"Regie Tongol","officer":"Divine","lender":"Joan","principal":3000,"interestRate":15,"length":10,"lengthUnit":"days","startDate":"2026-08-17","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787537785460_0kav1o","date":"2026-08-24","amount":3450,"note":""}],"status":"completed","createdAt":1787040226883},{"id":"loan_1786003784160_0l1o6h","borrower":"Ghen 3","officer":"Ghen","lender":"Josh","principal":20000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-06","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1787306016078_wu0r3r","date":"2026-08-21","amount":8000,"note":""}],"status":"active","createdAt":1786003784160},{"id":"loan_1785934281359_t63py2","borrower":"Alex","officer":"","lender":"Joan","principal":15000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-06-05","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785934281359_tjwvc5","date":"2026-06-20","amount":4875,"note":""},{"id":"loan_1785934281359_uf8nap","date":"2026-07-05","amount":4875,"note":""},{"id":"loan_1785934281359_3tftwv","date":"2026-07-20","amount":4875,"note":""},{"id":"loan_1785934850837_i6thma","date":"2026-08-05","amount":4875,"note":""}],"status":"completed","createdAt":1785934281359},{"id":"loan_1785934281358_bdj1z7","borrower":"Divine","principal":20000,"interestRate":15,"length":12,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787040318651_hlxk1n","date":"2026-08-18","amount":23000,"note":""}],"officer":"Divine","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_dhmpkm","borrower":"Divine","principal":7000,"interestRate":15,"length":12,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787040792870_rjyjpd","date":"2026-08-18","amount":8050,"note":"Marked complete"}],"officer":"Divine","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_ax6v6u","borrower":"Divine","principal":10000,"interestRate":15,"length":13,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787040889884_v52nto","date":"2026-08-18","amount":11500,"note":""}],"officer":"Divine","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_tvvpef","borrower":"Divine","principal":10000,"interestRate":15,"length":15,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"lumpsum","frequency":null,"installmentCount":0,"payments":[{"id":"loan_1787188890367_j6atpu","date":"2026-08-20","amount":11500,"note":""}],"officer":"Divine","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_f6f0fc","borrower":"Divine","principal":15000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-07-21","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785934281358_6ozz7v","date":"2026-08-05","amount":4875,"note":""},{"id":"loan_1787188858703_fdtwg9","date":"2026-08-20","amount":4875,"note":""}],"officer":"Divine","lender":"Joan","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_z68c0h","borrower":"Joana","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-21","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1785934281358_75z1kv","date":"2026-08-05","amount":12000,"note":""},{"id":"loan_1787188922077_n47kbd","date":"2026-08-20","amount":12000,"note":""},{"id":"loan_1787661138278_rzk5fn","date":"2026-08-25","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_yrircc","borrower":"Marie Jane","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-20","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1785934281358_rum7rk","date":"2026-08-04","amount":12000,"note":""},{"id":"loan_1787148621165_svo58j","date":"2026-08-20","amount":12000,"note":""},{"id":"loan_1787823436301_6j24gx","date":"2026-08-27","amount":12000,"note":""}],"officer":"Ghen","lender":"Josh","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_6he4l4","borrower":"Anadelyn","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-10","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1785934281358_zr4g6q","date":"2026-07-25","amount":12000,"note":""},{"id":"loan_1786516018562_r1j4pv","date":"2026-08-10","amount":12000,"note":""},{"id":"loan_1787042105742_8mby9h","date":"2026-08-18","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_mxznld","borrower":"Dhel","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-10","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1785934281358_l8rkxp","date":"2026-07-25","amount":12000,"note":""},{"id":"loan_1786516084423_9vevu4","date":"2026-08-10","amount":12000,"note":""},{"id":"loan_1787042227758_w1t9jz","date":"2026-08-18","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_qku7yk","borrower":"Ghen","principal":40000,"interestRate":40,"length":60,"lengthUnit":"days","startDate":"2026-07-10","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785934281358_ings8m","date":"2026-07-25","amount":14000,"note":""},{"id":"loan_1786516040763_48aj98","date":"2026-08-10","amount":14000,"note":""},{"id":"loan_1787646264150_gq5d2o","date":"2026-08-25","amount":14000,"note":""},{"id":"loan_1787823425226_bm3r5i","date":"2026-08-27","amount":14000,"note":""}],"officer":"Ghen","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_ued9g1","borrower":"Karen","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-31","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1787042504788_jlcfml","date":"2026-08-18","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_1sbwps","borrower":"Carizza Mae","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-22","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1786003723009_10hgvi","date":"2026-08-06","amount":12000,"note":""},{"id":"loan_1787306051748_xifhgh","date":"2026-08-21","amount":12000,"note":""},{"id":"loan_1787646176746_yjuea5","date":"2026-08-25","amount":12000,"note":""}],"officer":"Ghen","lender":"Josh","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_5sfk9p","borrower":"Germaine","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-25","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1786515979023_w8b1rc","date":"2026-08-12","amount":12000,"note":""},{"id":"loan_1787580182047_cvtx3j","date":"2026-08-25","amount":12000,"note":""},{"id":"loan_1787982417992_sx86r4","date":"2026-08-29","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_tb7dtc","borrower":"Felixberto","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-27","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1786516107258_xgwl6p","date":"2026-08-11","amount":12000,"note":""},{"id":"loan_1787762607726_4ffiwt","date":"2026-08-27","amount":12000,"note":""}],"officer":"Ghen","lender":"Josh","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_5emogx","borrower":"Ghen 2 Fernan Lopez","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1787306113963_ysamgl","date":"2026-08-21","amount":12000,"note":""}],"officer":"Ghen","lender":"Joan","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_chxdzo","borrower":"Jaselle","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-07-16","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1785934281358_wd6k6x","date":"2026-07-31","amount":12000,"note":""},{"id":"loan_1787050395088_uljn7k","date":"2026-08-18","amount":12000,"note":""}],"officer":"","lender":"Josh","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_skvm15","borrower":"Jazz (Joan)","principal":30000,"interestRate":20,"length":45,"lengthUnit":"days","startDate":"2026-08-05","payoutType":"installments","frequency":"every15days","installmentCount":3,"payments":[{"id":"loan_1787208353036_jsgbvr","date":"2026-08-20","amount":12000,"note":""}],"officer":"","lender":"Joan","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_ycke7e","borrower":"Jazz (Josh)","principal":30000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-07-21","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785936937611_1m9zd1","date":"2026-08-05","amount":9750,"note":""},{"id":"loan_1787306080325_mzsaiy","date":"2026-08-21","amount":9750,"note":""}],"officer":"","lender":"Josh","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_76dqw6","borrower":"Lusel","principal":10000,"interestRate":20,"length":14,"lengthUnit":"days","startDate":"2026-08-13","payoutType":"installments","frequency":"weekly","installmentCount":2,"payments":[{"id":"loan_1787188945918_32gr45","date":"2026-08-20","amount":6000,"note":""},{"id":"loan_1787982369270_fbpj3l","date":"2026-08-29","amount":6000,"note":""}],"officer":"","lender":"Josh","status":"completed","createdAt":1785934281358},{"id":"loan_1785934281358_blbfpz","borrower":"Aizel","principal":13000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-07-21","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785935998893_ru9sxa","date":"2026-08-05","amount":4225,"note":""}],"officer":"","lender":"Josh","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_zfm94l","borrower":"Aizel & Ed","principal":20000,"interestRate":30,"length":60,"lengthUnit":"days","startDate":"2026-07-21","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785936011155_6q0611","date":"2026-08-05","amount":6500,"note":""}],"officer":"","lender":"Josh","status":"active","createdAt":1785934281358},{"id":"loan_1785934281358_xtcbe9","borrower":"Ethel","principal":20000,"interestRate":20,"length":60,"lengthUnit":"days","startDate":"2026-05-31","payoutType":"installments","frequency":"every15days","installmentCount":4,"payments":[{"id":"loan_1785934281358_q9gpmk","date":"2026-06-15","amount":6000,"note":""},{"id":"loan_1785934281358_yfe2zu","date":"2026-06-30","amount":6000,"note":""},{"id":"loan_1785934281358_uew45h","date":"2026-07-15","amount":6000,"note":""},{"id":"loan_1786695050873_2r2pyu","date":"2026-08-13","amount":6000,"note":""}],"officer":"","lender":"Joan","status":"completed","createdAt":1785934281358}];
+
+    // replaces whatever's currently stored (including any older, stale seed
+    // data from a previous version of this file) rather than appending to it —
+    // this seed is the authoritative current snapshot, not an incremental add.
+    loans = seedLoans.slice();
+    await saveLoans();
+    try{ await window.storage.set('seed-2026-08-31-merged', 'done', false); }catch(e){ /* best effort */ }
+  }
+
+  // older loans tracked payment with a simple paid[] checkbox array and no ledger —
+  // convert that into an equivalent payments[] entry so the new balance math still works
+  function migrateLoans(){
+    let changed = false;
+    loans.forEach(loan => {
+      if (!loan.payments){
+        loan.payments = [];
+        const totals = computeTotals(loan);
+        if (loan.payoutType === 'installments' && Array.isArray(loan.paid)){
+          const paidCount = loan.paid.filter(Boolean).length;
+          if (paidCount > 0){
+            loan.payments.push({ id: uid(), date: loan.startDate || toISODate(new Date()), amount: totals.perInstallment * paidCount, note: 'Migrated from earlier version' });
+          }
+        } else if (loan.payoutType === 'lumpsum' && loan.status === 'completed'){
+          loan.payments.push({ id: uid(), date: loan.startDate || toISODate(new Date()), amount: totals.total, note: 'Migrated from earlier version' });
+        }
+        changed = true;
+      }
+      if (loan.officer === undefined){
+        loan.officer = '';
+        changed = true;
+      }
+      if (loan.lender === undefined){
+        loan.lender = '';
+        changed = true;
+      }
+    });
+    if (fixKnownOfficers()) changed = true;
+    if (fixKnownLenders()) changed = true;
+    if (changed) saveLoans();
+  }
+
+  // correction pass for the Divine/Ghen bulk import — safe to run every load,
+  // only touches loans that match a known name and don't already have the right officer
+  const GHEN_BORROWERS = ['Joana','Marie Jane','Anadelyn','Dhel','Ghen','Karen','Carizza Mae','Germaine','Felixberto','Fernan Lopez'];
+  function fixKnownOfficers(){
+    let changed = false;
+    loans.forEach(loan => {
+      let correctOfficer = null;
+      if (loan.borrower === 'Divine') correctOfficer = 'Divine';
+      else if (GHEN_BORROWERS.includes(loan.borrower)) correctOfficer = 'Ghen';
+      if (correctOfficer !== null && loan.officer !== correctOfficer){
+        loan.officer = correctOfficer;
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
+  // correction pass for master lender (Joan/Josh) — who actually funded each loan,
+  // separate from the officer who manages the account. Matched by borrower + principal
+  // + start date since several loans share a borrower name or principal amount alone.
+  const KNOWN_LENDERS = [
+    { borrower: 'Divine', principal: 20000, startDate: '2026-08-05', lender: 'Joan' },
+    { borrower: 'Divine', principal: 7000, startDate: '2026-08-05', lender: 'Joan' },
+    { borrower: 'Divine', principal: 10000, startDate: '2026-08-05', lender: 'Joan' },
+    { borrower: 'Divine', principal: 15000, startDate: '2026-07-21', lender: 'Joan' },
+    { borrower: 'Joana', principal: 30000, startDate: '2026-07-21', lender: 'Joan' },
+    { borrower: 'Marie Jane', principal: 30000, startDate: '2026-07-20', lender: 'Josh' },
+    { borrower: 'Anadelyn', principal: 30000, startDate: '2026-07-10', lender: 'Joan' },
+    { borrower: 'Dhel', principal: 30000, startDate: '2026-07-10', lender: 'Joan' },
+    { borrower: 'Karen', principal: 30000, startDate: '2026-07-31', lender: 'Joan' },
+    { borrower: 'Carizza Mae', principal: 30000, startDate: '2026-07-22', lender: 'Josh' },
+    { borrower: 'Germaine', principal: 30000, startDate: '2026-07-25', lender: 'Joan' },
+    { borrower: 'Felixberto', principal: 30000, startDate: '2026-07-27', lender: 'Josh' },
+    { borrower: 'Jaselle', principal: 30000, startDate: '2026-07-16', lender: 'Josh' },
+    { borrower: 'Jazz (Joan)', principal: 30000, startDate: '2026-08-05', lender: 'Joan' },
+    { borrower: 'Jazz (Josh)', principal: 30000, startDate: '2026-07-21', lender: 'Josh' },
+    { borrower: 'Aizel', principal: 13000, startDate: '2026-07-21', lender: 'Josh' },
+    { borrower: 'Aizel & Ed', principal: 20000, startDate: '2026-07-21', lender: 'Josh' },
+    { borrower: 'Ethel', principal: 20000, startDate: '2026-05-31', lender: 'Joan' },
+    { borrower: 'Alex', principal: 15000, startDate: '2026-06-05', lender: 'Joan' },
+    { borrower: 'Ghen', principal: 40000, startDate: '2026-07-10', lender: 'Joan' },
+    { borrower: 'Fernan Lopez', principal: 30000, startDate: '2026-08-05', lender: 'Joan' },
+    { borrower: 'Lusel', principal: 10000, startDate: '2026-08-13', lender: 'Josh' }
+  ];
+  function fixKnownLenders(){
+    let changed = false;
+    loans.forEach(loan => {
+      const match = KNOWN_LENDERS.find(k => k.borrower === loan.borrower && k.principal === loan.principal && k.startDate === loan.startDate);
+      if (match && loan.lender !== match.lender){
+        loan.lender = match.lender;
+        changed = true;
+      }
+    });
+    return changed;
+  }
+
+  async function saveLoans(){
+    try{
+      await window.storage.set('loans', JSON.stringify(loans), false);
+    }catch(e){
+      console.error('storage save failed', e);
+    }
+  }
+
+  // ---------- rendering ----------
+  function renderLenderBreakdown(active){
+    const labelEl = document.getElementById('lender-breakdown-label');
+    const gridEl = document.getElementById('lender-breakdown-grid');
+    const lenders = Array.from(new Set(active.map(l => l.lender).filter(Boolean))).sort();
+
+    if (lenders.length === 0){
+      labelEl.classList.add('hidden');
+      gridEl.innerHTML = '';
+      return;
+    }
+    labelEl.classList.remove('hidden');
+
+    gridEl.innerHTML = lenders.map(lender => {
+      const theirs = active.filter(l => l.lender === lender);
+      const principal = theirs.reduce((s,l) => s + Number(l.principal||0), 0);
+      const owed = theirs.reduce((s,l) => s + remainingBalance(l), 0);
+      const monthly = theirs.reduce((s,l) => s + monthlyInterestRate(l), 0);
+      const c = tagColor(lender);
+      return `
+        <div class="stat-card" style="border-left: 3px solid ${c};">
+          <div class="stat-label" style="color: ${c};">${escapeHtml(lender)}</div>
+          <div class="stat-value mono">${fmtMoney(principal)}</div>
+          <div class="stat-footnote">${theirs.length} loan${theirs.length === 1 ? '' : 's'} out &middot; ${fmtMoney(owed)} owed</div>
+          <div class="stat-footnote" style="margin-top: 6px; color: var(--sage);">~${fmtMoney(monthly)} / month in interest</div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderAll(){
+    rebuildTagColorMap();
+    const active = loans.filter(l => l.status === 'active');
+    const completed = loans.filter(l => l.status === 'completed');
+
+    document.getElementById('count-active').textContent = active.length;
+    document.getElementById('count-completed').textContent = completed.length;
+
+    const principalOut = active.reduce((s,l) => s + Number(l.principal||0), 0);
+    const owedTotal = active.reduce((s,l) => s + remainingBalance(l), 0);
+    document.getElementById('stat-total-out').textContent = fmtMoney(principalOut);
+    document.getElementById('stat-total-out-sub').textContent = `${active.length} active loan${active.length === 1 ? '' : 's'}`;
+    document.getElementById('stat-owed').textContent = fmtMoney(owedTotal);
+
+    renderLenderBreakdown(active);
+
+    renderCompletedGrid(completed);
+    renderActiveList(active);
+    renderToday(active);
+    renderCalendar(active);
+
+    const officerNames = Array.from(new Set(loans.map(l => l.officer).filter(Boolean))).sort();
+    document.getElementById('officer-suggestions').innerHTML = officerNames.map(o => `<option value="${escapeHtml(o)}"></option>`).join('');
+
+    const lenderNames = Array.from(new Set(loans.map(l => l.lender).filter(Boolean))).sort();
+    document.getElementById('lender-suggestions').innerHTML = lenderNames.map(o => `<option value="${escapeHtml(o)}"></option>`).join('');
+  }
+
+  // ---------- calendar view ----------
+  let calendarCursor = new Date();
+  calendarCursor.setDate(1);
+  let selectedCalDate = new Date();
+
+  function buildDaySchedule(active){
+    const map = {};
+    active.forEach(loan => {
+      const schedule = getSchedule(loan);
+      schedule.forEach(entry => {
+        const alreadyPaid = isEntryPaid(loan, entry);
+        if (alreadyPaid) return;
+        const key = toISODate(entry.date);
+        if (!map[key]) map[key] = [];
+        map[key].push({ loan, entry });
+      });
+    });
+    return map;
+  }
+
+  function renderCalendar(active){
+    const map = buildDaySchedule(active);
+    document.getElementById('cal-month-label').textContent = calendarCursor.toLocaleDateString(undefined, {month:'long', year:'numeric'});
+
+    const year = calendarCursor.getFullYear();
+    const month = calendarCursor.getMonth();
+    const startWeekday = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month+1, 0).getDate();
+    const today = new Date();
+
+    const gridEl = document.getElementById('cal-grid');
+    gridEl.innerHTML = '';
+
+    for (let i=0; i<startWeekday; i++){
+      const empty = document.createElement('div');
+      empty.className = 'cal-day empty';
+      gridEl.appendChild(empty);
+    }
+
+    for (let day=1; day<=daysInMonth; day++){
+      const dateObj = new Date(year, month, day);
+      const key = toISODate(dateObj);
+      const dayItems = map[key] || [];
+      const isToday = isSameDay(dateObj, today);
+      const isSelected = isSameDay(dateObj, selectedCalDate);
+      const isOverdue = dayItems.length > 0 && dateObj < today && !isToday;
+
+      const cell = document.createElement('div');
+      cell.className = 'cal-day' + (isToday ? ' today' : '') + (isSelected ? ' selected' : '');
+      cell.innerHTML = `<span>${day}</span>${dayItems.length ? `<span class="cal-day-dot ${isOverdue ? 'overdue' : ''}"></span>` : ''}`;
+      cell.addEventListener('click', () => {
+        selectedCalDate = dateObj;
+        renderCalendar(loans.filter(l => l.status === 'active'));
+      });
+      gridEl.appendChild(cell);
+    }
+
+    renderCalDetail(map);
+  }
+
+  function renderCalDetail(map){
+    const key = toISODate(selectedCalDate);
+    const items = map[key] || [];
+    const isToday = isSameDay(selectedCalDate, new Date());
+    document.getElementById('cal-detail-label').textContent = (isToday ? 'Today \u00b7 ' : '') + formatDatePretty(selectedCalDate);
+
+    const listEl = document.getElementById('cal-detail-list');
+    if (items.length === 0){
+      listEl.innerHTML = '<div class="empty-state"><span class="serif">Nothing due</span>No collections scheduled for this day.</div>';
+      return;
+    }
+    const total = items.reduce((s,i) => s + i.entry.amount, 0);
+    listEl.innerHTML = `
+      <div class="collection-item" style="border-color: var(--brass); margin-bottom: 12px;">
+        <div class="llname">Total due</div>
+        <div class="collection-amount">${fmtMoney(total)}</div>
+      </div>
+    ` + items.map(({loan, entry}) => `
+      <div class="collection-item">
+        <div>
+          <div class="llname">${escapeHtml(loan.borrower)}${loan.lender ? `<span class="lender-tag" style="${tagStyle(loan.lender)}">${escapeHtml(loan.lender)}</span>` : ''}</div>
+          <div class="llmeta">${loan.payoutType === 'lumpsum' ? 'Lump sum payout' : `Installment ${entry.ordinal} of ${entry.count}`}</div>
+        </div>
+        <div class="collection-amount">${fmtMoney(entry.amount)}</div>
+      </div>
+    `).join('');
+  }
+
+  document.getElementById('cal-prev').addEventListener('click', () => {
+    calendarCursor.setMonth(calendarCursor.getMonth() - 1);
+    renderCalendar(loans.filter(l => l.status === 'active'));
+  });
+  document.getElementById('cal-next').addEventListener('click', () => {
+    calendarCursor.setMonth(calendarCursor.getMonth() + 1);
+    renderCalendar(loans.filter(l => l.status === 'active'));
+  });
+
+  function renderToday(active){
+    const today = new Date();
+    const items = [];
+    active.forEach(loan => {
+      const schedule = getSchedule(loan);
+      schedule.forEach(entry => {
+        const alreadyPaid = isEntryPaid(loan, entry);
+        if (!alreadyPaid && isSameDay(entry.date, today)){
+          items.push({ loan, entry });
+        }
+      });
+    });
+
+    document.getElementById('today-date-sub').textContent = formatDatePretty(today);
+    document.getElementById('count-today').textContent = items.length;
+
+    const total = items.reduce((s,i) => s + i.entry.amount, 0);
+    document.getElementById('today-total').textContent = fmtMoney(total);
+    document.getElementById('today-count').textContent = items.length;
+    document.getElementById('stat-today-overview').textContent = fmtMoney(total);
+    document.getElementById('stat-today-overview-sub').textContent = items.length === 0 ? 'Nothing due today' : `From ${items.length} borrower${items.length === 1 ? '' : 's'}`;
+
+    const listEl = document.getElementById('today-list');
+    if (items.length === 0){
+      listEl.innerHTML = '<div class="empty-state"><span class="serif">Nothing due today</span>No collections are scheduled for today.</div>';
+    } else {
+      listEl.innerHTML = items.map(({loan, entry}) => `
+        <div class="collection-item">
+          <div>
+            <div class="llname">${escapeHtml(loan.borrower)}${loan.lender ? `<span class="lender-tag" style="${tagStyle(loan.lender)}">${escapeHtml(loan.lender)}</span>` : ''}</div>
+            <div class="llmeta">${loan.payoutType === 'lumpsum' ? 'Lump sum payout' : `Installment ${entry.ordinal} of ${entry.count}`}</div>
+          </div>
+          <div class="collection-amount">${fmtMoney(entry.amount)}</div>
+        </div>
+      `).join('');
+    }
+
+    const messageEl = document.getElementById('today-message-preview');
+    if (items.length === 0){
+      messageEl.textContent = 'No collections due today.';
+    } else {
+      const lines = items.map(({loan, entry}, i) =>
+        `${i+1}. ${loan.borrower} \u2014 ${fmtMoney(entry.amount)} (${loan.payoutType === 'lumpsum' ? 'lump sum' : `installment ${entry.ordinal}/${entry.count}`})`
+      );
+      messageEl.textContent = `Collections due today (${formatDatePretty(today)})\n` + lines.join('\n') + `\n\u2014\nTotal due: ${fmtMoney(total)}`;
+    }
+  }
+
+
+  let selectedActiveId = null;
+
+  let officerFilter = 'all';
+  let lenderFilter = 'all';
+  let officerFilterCompleted = 'all';
+  let lenderFilterCompleted = 'all';
+
+  function renderFilterRow(elId, active, field, currentValue, onPick){
+    const filterEl = document.getElementById(elId);
+    const values = Array.from(new Set(active.map(l => l[field] || 'Unassigned'))).sort();
+    if (values.length <= 1){
+      filterEl.innerHTML = '';
+      filterEl.classList.add('hidden');
+      onPick('all');
+      return;
+    }
+    filterEl.classList.remove('hidden');
+    const options = ['all', ...values];
+    filterEl.innerHTML = options.map(o => {
+      const selected = currentValue === o;
+      const style = (o !== 'all' && selected) ? tagStyle(o) : '';
+      return `<button class="officer-pill ${selected ? 'selected' : ''}" data-value="${escapeHtml(o)}" style="${style}">${o === 'all' ? 'All' : escapeHtml(o)}</button>`;
+    }).join('');
+    filterEl.querySelectorAll('.officer-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        onPick(btn.dataset.value);
+        renderAll();
+      });
+    });
+  }
+
+  function renderCompletedGrid(completed){
+    renderFilterRow('officer-filter-completed', completed, 'officer', officerFilterCompleted, (v) => { officerFilterCompleted = v; });
+    renderFilterRow('lender-filter-completed', completed, 'lender', lenderFilterCompleted, (v) => { lenderFilterCompleted = v; });
+
+    let filtered = officerFilterCompleted === 'all' ? completed : completed.filter(l => (l.officer || 'Unassigned') === officerFilterCompleted);
+    filtered = lenderFilterCompleted === 'all' ? filtered : filtered.filter(l => (l.lender || 'Unassigned') === lenderFilterCompleted);
+
+    renderGrid('grid-completed', filtered, {compact:false});
+  }
+
+  function renderActiveList(active){
+    renderFilterRow('officer-filter', active, 'officer', officerFilter, (v) => { officerFilter = v; });
+    renderFilterRow('lender-filter', active, 'lender', lenderFilter, (v) => { lenderFilter = v; });
+
+    let filteredActive = officerFilter === 'all' ? active : active.filter(l => (l.officer || 'Unassigned') === officerFilter);
+    filteredActive = lenderFilter === 'all' ? filteredActive : filteredActive.filter(l => (l.lender || 'Unassigned') === lenderFilter);
+
+    const listEl = document.getElementById('active-loan-list');
+    listEl.innerHTML = '';
+
+    // drop the selection if that loan no longer exists, isn't active, or got filtered out
+    if (selectedActiveId && !filteredActive.find(l => l.id === selectedActiveId)){
+      selectedActiveId = null;
+    }
+
+    if (filteredActive.length === 0){
+      listEl.innerHTML = '<div class="empty-state"><span class="serif">Nothing here yet</span>Add a loan to get started.</div>';
+      renderActiveDetail(null);
+      return;
+    }
+
+    filteredActive.forEach(loan => {
+      const totals = computeTotals(loan);
+      const item = document.createElement('div');
+      item.className = 'loan-list-item' + (loan.id === selectedActiveId ? ' selected' : '');
+      item.dataset.loanid = loan.id;
+      const progress = loan.payoutType === 'installments'
+        ? `${paidCountFIFO(loan)}/${loan.installmentCount}`
+        : 'lump sum';
+      item.innerHTML = `
+        <div>
+          <div class="llname">${escapeHtml(loan.borrower)}${loan.officer && officerFilter === 'all' ? `<span class="officer-tag" style="${tagStyle(loan.officer)}">${escapeHtml(loan.officer)}</span>` : ''}${loan.lender && lenderFilter === 'all' ? `<span class="lender-tag" style="${tagStyle(loan.lender)}">${escapeHtml(loan.lender)}</span>` : ''}</div>
+          <div class="llmeta">${fmtMoney(loan.principal)}</div>
+        </div>
+        <div class="llprogress">${progress}</div>
+      `;
+      item.addEventListener('click', () => selectActiveLoan(loan.id));
+      listEl.appendChild(item);
+    });
+
+    // auto-select the first loan on desktop if nothing is selected yet
+    if (!selectedActiveId && window.innerWidth > 780){
+      selectedActiveId = filteredActive[0].id;
+      listEl.querySelector('.loan-list-item').classList.add('selected');
+    }
+
+    renderActiveDetail(filteredActive.find(l => l.id === selectedActiveId) || null);
+  }
+
+  function selectActiveLoan(id){
+    selectedActiveId = id;
+    app.classList.add('detail-open');
+    renderAll();
+  }
+
+  document.getElementById('active-back-btn').addEventListener('click', () => {
+    app.classList.remove('detail-open');
+    selectedActiveId = null;
+    renderAll();
+  });
+
+  // ---------- settings (phone number) ----------
+  let settingsVersion = 'new';
+  async function loadSettings(){
+    try{
+      const res = await window.storage.get('settings', false);
+      const settings = res && res.value ? JSON.parse(res.value) : {};
+      document.getElementById('f-my-phone').value = settings.phone || '';
+    }catch(e){ /* no settings saved yet */ }
+  }
+  document.getElementById('f-my-phone').addEventListener('change', async (e) => {
+    try{
+      await window.storage.set('settings', JSON.stringify({ phone: e.target.value.trim() }), false);
+    }catch(err){ console.error('could not save phone number', err); }
+  });
+
+  document.getElementById('btn-copy-message').addEventListener('click', async () => {
+    const text = document.getElementById('today-message-preview').textContent;
+    try{
+      await navigator.clipboard.writeText(text);
+      const btn = document.getElementById('btn-copy-message');
+      const original = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = original; }, 1500);
+    }catch(e){
+      alert('Could not copy automatically — select the text above and copy it manually.');
+    }
+  });
+
+  document.getElementById('btn-open-sms').addEventListener('click', () => {
+    const text = document.getElementById('today-message-preview').textContent;
+    const phone = document.getElementById('f-my-phone').value.trim();
+    const body = encodeURIComponent(text);
+    const uri = phone ? `sms:${phone}?body=${body}` : `sms:?body=${body}`;
+    window.location.href = uri;
+  });
+
+  // ---------- calendar export (.ics) ----------
+  function escapeICS(text){
+    return String(text).replace(/\\/g, '\\\\').replace(/,/g, '\\,').replace(/;/g, '\\;').replace(/\n/g, '\\n');
+  }
+  function icsDateTime(d, hour, minute){
+    const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), hour, minute, 0);
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+  }
+  function icsStamp(){
+    const d = new Date();
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}${pad(d.getSeconds())}Z`;
+  }
+
+  function buildICS(active){
+    const lines = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Ledger//Loan Book//EN',
+      'CALSCALE:GREGORIAN'
+    ];
+    active.forEach(loan => {
+      const schedule = getSchedule(loan);
+      schedule.forEach(entry => {
+        const alreadyPaid = isEntryPaid(loan, entry);
+        if (alreadyPaid) return;
+        const label = loan.payoutType === 'lumpsum'
+          ? `${loan.borrower} \u2014 ${fmtMoney(entry.amount)} due (lump sum)`
+          : `${loan.borrower} \u2014 ${fmtMoney(entry.amount)} due (installment ${entry.ordinal}/${entry.count})`;
+        const start = icsDateTime(entry.date, 9, 0);
+        const end = icsDateTime(entry.date, 9, 30);
+        lines.push(
+          'BEGIN:VEVENT',
+          `UID:${loan.id}-${entry.index}@ledger-loanbook`,
+          `DTSTAMP:${icsStamp()}`,
+          `DTSTART:${start}`,
+          `DTEND:${end}`,
+          `SUMMARY:${escapeICS(label)}`,
+          `DESCRIPTION:${escapeICS('Collection due from ' + loan.borrower + ', ' + fmtMoney(entry.amount) + '.')}`,
+          'BEGIN:VALARM',
+          'ACTION:DISPLAY',
+          'DESCRIPTION:Collection due',
+          'TRIGGER:-PT0M',
+          'END:VALARM',
+          'END:VEVENT'
+        );
+      });
+    });
+    lines.push('END:VCALENDAR');
+    return lines.join('\r\n');
+  }
+
+  function exportICS(){
+    const active = loans.filter(l => l.status === 'active');
+    const icsContent = buildICS(active);
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'collections.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+  document.getElementById('btn-export-ics').addEventListener('click', exportICS);
+  document.getElementById('btn-export-ics-overview').addEventListener('click', exportICS);
+
+  // ---------- backup / restore / CSV export ----------
+  function downloadBlob(content, mimeType, filename){
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('btn-export-backup').addEventListener('click', () => {
+    const payload = { exportedAt: new Date().toISOString(), loans };
+    downloadBlob(JSON.stringify(payload, null, 2), 'application/json;charset=utf-8', `ledger-backup-${toISODate(new Date())}.json`);
+  });
+
+  document.getElementById('btn-import-backup').addEventListener('click', () => {
+    document.getElementById('f-restore-file').click();
+  });
+
+  document.getElementById('f-restore-file').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    try{
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      const restoredLoans = Array.isArray(parsed) ? parsed : parsed.loans;
+      if (!Array.isArray(restoredLoans)) throw new Error('not a recognized backup file');
+
+      const proceed = confirm(`This will replace everything currently in the dashboard with the ${restoredLoans.length} loan(s) from this backup. This can't be undone. Continue?`);
+      if (!proceed){ e.target.value = ''; return; }
+
+      loans = restoredLoans;
+      migrateLoans();
+      await saveLoans();
+      renderAll();
+      alert('Backup restored.');
+    }catch(err){
+      alert("Couldn't read that file — make sure it's a backup exported from this dashboard.");
+    }
+    e.target.value = '';
+  });
+
+  document.getElementById('btn-export-csv').addEventListener('click', () => {
+    const csvEscape = (v) => `"${String(v).replace(/"/g, '""')}"`;
+    const headers = ['Borrower','Officer','Principal','Interest %','Payout','Frequency','Start Date','Total Due','Paid So Far','Balance Owed','Status','Next Due Date'];
+    const rows = loans.map(loan => {
+      const totals = computeTotals(loan);
+      const schedule = getSchedule(loan);
+      const nextEntry = loan.status === 'active' ? schedule.find(e => !isEntryPaid(loan, e)) : null;
+      return [
+        loan.borrower,
+        loan.officer || '',
+        loan.principal,
+        loan.interestRate,
+        loan.payoutType === 'lumpsum' ? 'Lump sum' : (freqLabels[loan.frequency] || loan.frequency),
+        loan.payoutType === 'installments' ? (freqLabels[loan.frequency] || loan.frequency) : '',
+        loan.startDate || '',
+        totals.total.toFixed(2),
+        totalPaid(loan).toFixed(2),
+        remainingBalance(loan).toFixed(2),
+        loan.status,
+        nextEntry ? toISODate(nextEntry.date) : ''
+      ].map(csvEscape).join(',');
+    });
+    const csv = [headers.map(csvEscape).join(','), ...rows].join('\r\n');
+    downloadBlob(csv, 'text/csv;charset=utf-8', `ledger-export-${toISODate(new Date())}.csv`);
+  });
+
+  document.getElementById('btn-export-xlsx').addEventListener('click', () => {
+    if (typeof XLSX === 'undefined'){
+      alert("The Excel export library didn't load — check your internet connection and try again.");
+      return;
+    }
+
+    const active = loans.filter(l => l.status === 'active');
+    const completed = loans.filter(l => l.status === 'completed');
+    const today = new Date();
+
+    // --- Overview sheet ---
+    const principalOut = active.reduce((s,l) => s + Number(l.principal||0), 0);
+    const owedTotal = active.reduce((s,l) => s + remainingBalance(l), 0);
+    const todaySchedule = [];
+    active.forEach(loan => {
+      getSchedule(loan).forEach(entry => {
+        if (!isEntryPaid(loan, entry) && isSameDay(entry.date, today)) todaySchedule.push(entry.amount);
+      });
+    });
+    const todayTotal = todaySchedule.reduce((s,a) => s + a, 0);
+
+    const overviewRows = [
+      ['Ledger — Loan Book Report'],
+      ['Generated', formatDatePretty(today)],
+      [],
+      ['Total out', principalOut],
+      ['Owed to me (principal + interest outstanding)', owedTotal],
+      ["Today's collections", todayTotal],
+      ['Active loans', active.length],
+      ['Completed loans', completed.length],
+      []
+    ];
+    const lenders = Array.from(new Set(active.map(l => l.lender).filter(Boolean))).sort();
+    if (lenders.length){
+      overviewRows.push(['By master lender']);
+      overviewRows.push(['Lender', 'Principal out', 'Loans out', 'Owed', 'Est. monthly interest']);
+      lenders.forEach(lender => {
+        const theirs = active.filter(l => l.lender === lender);
+        const principal = theirs.reduce((s,l) => s + Number(l.principal||0), 0);
+        const owed = theirs.reduce((s,l) => s + remainingBalance(l), 0);
+        const monthly = theirs.reduce((s,l) => s + monthlyInterestRate(l), 0);
+        overviewRows.push([lender, principal, theirs.length, owed, monthly]);
+      });
+    }
+
+    // --- Loan sheet builder (shared by Active + Completed) ---
+    function loanRows(list){
+      const headers = ['Borrower','Officer','Master Lender','Principal','Interest %','Payout','Frequency','Start Date','Total Due','Paid So Far','Balance Owed','Status','Next Due Date'];
+      const rows = list.map(loan => {
+        const totals = computeTotals(loan);
+        const schedule = getSchedule(loan);
+        const nextEntry = loan.status === 'active' ? schedule.find(e => !isEntryPaid(loan, e)) : null;
+        return [
+          loan.borrower,
+          loan.officer || '',
+          loan.lender || '',
+          loan.principal,
+          loan.interestRate,
+          loan.payoutType === 'lumpsum' ? 'Lump sum' : 'Installments',
+          loan.payoutType === 'installments' ? (freqLabels[loan.frequency] || loan.frequency) : '',
+          loan.startDate || '',
+          Number(totals.total.toFixed(2)),
+          Number(totalPaid(loan).toFixed(2)),
+          Number(remainingBalance(loan).toFixed(2)),
+          loan.status,
+          nextEntry ? toISODate(nextEntry.date) : ''
+        ];
+      });
+      return [headers, ...rows];
+    }
+
+    // --- Payments log sheet ---
+    const paymentDataRows = [];
+    loans.forEach(loan => {
+      (loan.payments||[]).forEach(p => {
+        paymentDataRows.push([loan.borrower, loan.officer || '', loan.lender || '', p.date, Number(p.amount), p.note || '']);
+      });
+    });
+    paymentDataRows.sort((a,b) => (a[3]||'').localeCompare(b[3]||''));
+    const paymentRows = [['Borrower','Officer','Master Lender','Date','Amount','Note'], ...paymentDataRows];
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(overviewRows), 'Overview');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(loanRows(active)), 'Active Loans');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(loanRows(completed)), 'Completed Loans');
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(paymentRows), 'Payments Log');
+
+    XLSX.writeFile(wb, `ledger-report-${toISODate(today)}.xlsx`);
+  });
+
+  function renderActiveDetail(loan){
+    const emptyEl = document.getElementById('active-empty-detail');
+    const contentEl = document.getElementById('active-detail-content');
+    if (!loan){
+      emptyEl.classList.remove('hidden');
+      contentEl.classList.add('hidden');
+      contentEl.innerHTML = '';
+      return;
+    }
+    emptyEl.classList.add('hidden');
+    contentEl.classList.remove('hidden');
+    contentEl.innerHTML = '';
+    contentEl.appendChild(renderCard(loan, {compact:false}));
+  }
+
+  function renderGrid(elId, list, opts){
+    const el = document.getElementById(elId);
+    el.innerHTML = '';
+    if (list.length === 0){
+      el.innerHTML = '<div class="empty-state"><span class="serif">Nothing here yet</span>Add a loan to get started.</div>';
+      return;
+    }
+    list.forEach(loan => el.appendChild(renderCard(loan, opts)));
+  }
+
+  function renderCard(loan, opts){
+    const totals = computeTotals(loan);
+    const card = document.createElement('div');
+    card.className = 'loan-card';
+
+    const paidCount = paidCountFIFO(loan);
+    const schedule = getSchedule(loan);
+    const nextEntry = loan.status === 'active' ? schedule.find(e => !isEntryPaid(loan, e)) : null;
+    const startedLabel = loan.startDate ? `Started ${formatDatePretty(parseISODate(loan.startDate))}` : '';
+    const balance = remainingBalance(loan);
+    const payments = (loan.payments||[]).slice().sort((a,b) => b.date.localeCompare(a.date));
+
+    card.innerHTML = `
+      <div class="loan-card-top">
+        <div>
+          <div class="loan-name serif">${escapeHtml(loan.borrower)}${loan.officer ? `<span class="officer-tag" style="${tagStyle(loan.officer)}">${escapeHtml(loan.officer)}</span>` : ''}${loan.lender ? `<span class="lender-tag" style="${tagStyle(loan.lender)}">${escapeHtml(loan.lender)}</span>` : ''}</div>
+          <div class="loan-meta">${loan.length} ${loan.lengthUnit} · ${loan.payoutType === 'lumpsum' ? 'Lump sum' : (freqLabels[loan.frequency] || capitalize(loan.frequency))}${startedLabel ? ' · ' + startedLabel : ''}</div>
+        </div>
+        <div class="status-pill ${loan.status}">${loan.status}</div>
+      </div>
+
+      <div class="loan-figures">
+        <div><div class="fig-label">Principal</div><div class="fig-value mono">${fmtMoney(loan.principal)}</div></div>
+        <div><div class="fig-label">Interest</div><div class="fig-value mono">${loan.interestRate}%</div></div>
+        <div><div class="fig-label">Total due</div><div class="fig-value mono">${fmtMoney(totals.total)}</div></div>
+        <div><div class="fig-label">${loan.payoutType === 'lumpsum' ? 'Payout' : 'Per installment'}</div><div class="fig-value mono">${loan.payoutType === 'lumpsum' ? 'Lump sum' : fmtMoney(totals.perInstallment)}</div></div>
+        <div><div class="fig-label">Balance owed</div><div class="fig-value mono">${fmtMoney(balance)}</div></div>
+        <div><div class="fig-label">Next due</div><div class="fig-value mono">${nextEntry ? formatDatePretty(nextEntry.date) : (loan.status === 'completed' ? 'Paid off' : '\u2014')}</div></div>
+      </div>
+
+      ${loan.payoutType === 'installments' ? `
+        <div class="installment-block">
+          <div class="installment-head"><span>Installments (from payments received)</span><span class="count">${paidCount} / ${loan.installmentCount} covered</span></div>
+          <div class="ticks">${schedule.map((entry,i) => `<div class="tick-item ${i < paidCount ? 'paid' : ''}"><div class="tick ${i < paidCount ? 'paid' : ''}"></div><span class="tick-date">${formatDateShort(entry.date)}</span></div>`).join('')}</div>
+        </div>
+      ` : `
+        <div class="lumpsum-row">
+          <span class="lumpsum-tag">Single payout of ${fmtMoney(totals.total)}</span>
+        </div>
+      `}
+
+      ${payments.length ? `
+        <div class="payment-log">
+          <div class="installment-head"><span>Payments received</span></div>
+          ${payments.map(p => `
+            <div class="payment-row">
+              <div>
+                <div class="payment-amount mono">${fmtMoney(p.amount)}</div>
+                <div class="payment-meta">${formatDatePretty(parseISODate(p.date))}${p.note ? ' · ' + escapeHtml(p.note) : ''}</div>
+              </div>
+              <button class="payment-delete" data-action="delete-payment" data-loanid="${loan.id}" data-paymentid="${p.id}" title="Remove this payment">&times;</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <div class="loan-actions">
+        ${loan.status === 'active' ? `
+          <button class="btn-sm brass" data-action="record-payment" data-loanid="${loan.id}">Record a payment</button>
+          <button class="btn-sm sage" data-action="complete" data-loanid="${loan.id}">Mark complete</button>
+          <button class="btn-sm" data-action="edit" data-loanid="${loan.id}">Edit</button>
+        ` : `
+          <button class="btn-sm brass" data-action="renew" data-loanid="${loan.id}">Renew</button>
+          <button class="btn-sm clay" data-action="delete" data-loanid="${loan.id}">Delete</button>
+        `}
+      </div>
+    `;
+    return card;
+  }
+
+  function escapeHtml(s){
+    const d = document.createElement('div');
+    d.textContent = s || '';
+    return d.innerHTML;
+  }
+  function capitalize(s){ return s ? s.charAt(0).toUpperCase() + s.slice(1) : ''; }
+
+  // a richer, distinct color per officer/lender name — so each person is
+  // instantly recognizable by color, not just by the label text. Assigned by
+  // sorted order across the actual set of names in use, so it stays stable
+  // between reloads and never collides (up to 8 distinct names).
+  const TAG_PALETTE = [
+    '#e0a3ae', // dusty rose
+    '#7ec8c0', // steel teal
+    '#9fb0e8', // periwinkle
+    '#e2967a', // coral
+    '#c3a3e0', // lavender
+    '#7fb3d9', // sky blue
+    '#d9c069', // mustard
+    '#8fd1a8'  // mint
+  ];
+  let tagColorMap = {};
+  function rebuildTagColorMap(){
+    const names = new Set();
+    loans.forEach(l => {
+      if (l.officer) names.add(l.officer);
+      if (l.lender) names.add(l.lender);
+    });
+    const sorted = Array.from(names).sort();
+    tagColorMap = {};
+    sorted.forEach((name, i) => { tagColorMap[name] = TAG_PALETTE[i % TAG_PALETTE.length]; });
+  }
+  function tagColor(name){
+    return tagColorMap[name] || '#888c99';
+  }
+  function tagStyle(name){
+    const c = tagColor(name);
+    return `color:${c}; background:${c}26; border-color:${c}40;`;
+  }
+
+  // ---------- nav ----------
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById('view-' + btn.dataset.view).classList.add('active');
+    });
+  });
+
+  // ---------- modal open/close ----------
+  const backdrop = document.getElementById('modal-backdrop');
+
+  function openAddModal(){
+    editingId = null;
+    payoutChoice = 'lumpsum';
+    document.getElementById('modal-title').textContent = 'New Loan';
+    document.getElementById('f-borrower').value = '';
+    document.getElementById('f-officer').value = '';
+    document.getElementById('f-lender').value = '';
+    document.getElementById('f-principal').value = '';
+    document.getElementById('f-interest').value = '';
+    document.getElementById('f-length').value = '';
+    document.getElementById('f-length-unit').value = 'weeks';
+    document.getElementById('f-start-date').value = toISODate(new Date());
+    document.getElementById('f-frequency').value = 'monthly';
+    document.getElementById('f-installment-count').value = '';
+    document.getElementById('f-already-paid').checked = false;
+    setPayoutUI('lumpsum');
+    backdrop.classList.remove('hidden');
+    updatePreview();
+  }
+
+  function openEditModal(loan){
+    editingId = loan.id;
+    payoutChoice = loan.payoutType;
+    document.getElementById('modal-title').textContent = 'Edit Loan';
+    document.getElementById('f-borrower').value = loan.borrower;
+    document.getElementById('f-officer').value = loan.officer || '';
+    document.getElementById('f-lender').value = loan.lender || '';
+    document.getElementById('f-principal').value = loan.principal;
+    document.getElementById('f-interest').value = loan.interestRate;
+    document.getElementById('f-length').value = loan.length;
+    document.getElementById('f-length-unit').value = loan.lengthUnit;
+    document.getElementById('f-start-date').value = loan.startDate || toISODate(new Date());
+    document.getElementById('f-frequency').value = loan.frequency || 'monthly';
+    document.getElementById('f-installment-count').value = loan.installmentCount || '';
+    document.getElementById('f-already-paid').checked = loan.status === 'completed';
+    setPayoutUI(loan.payoutType);
+    backdrop.classList.remove('hidden');
+    updatePreview();
+  }
+
+  function closeModal(){
+    backdrop.classList.add('hidden');
+  }
+
+  document.getElementById('btn-open-add').addEventListener('click', openAddModal);
+  document.getElementById('btn-open-add-mobile').addEventListener('click', openAddModal);
+  document.getElementById('btn-cancel').addEventListener('click', closeModal);
+  backdrop.addEventListener('click', (e) => { if (e.target === backdrop) closeModal(); });
+
+  function setPayoutUI(choice){
+    payoutChoice = choice;
+    document.querySelectorAll('.radio-pill').forEach(p => p.classList.toggle('selected', p.dataset.payout === choice));
+    document.getElementById('installment-fields').style.display = choice === 'installments' ? 'grid' : 'none';
+  }
+
+  document.querySelectorAll('.radio-pill').forEach(p => {
+    p.addEventListener('click', () => { setPayoutUI(p.dataset.payout); updatePreview(); });
+  });
+
+  ['f-principal','f-interest','f-length','f-length-unit','f-frequency','f-installment-count'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+    document.getElementById(id).addEventListener('change', updatePreview);
+  });
+
+  document.getElementById('f-length').addEventListener('input', maybeSuggestCount);
+  document.getElementById('f-length-unit').addEventListener('change', maybeSuggestCount);
+  document.getElementById('f-frequency').addEventListener('change', maybeSuggestCount);
+
+  function maybeSuggestCount(){
+    const countField = document.getElementById('f-installment-count');
+    if (payoutChoice !== 'installments') return;
+    const length = document.getElementById('f-length').value;
+    const unit = document.getElementById('f-length-unit').value;
+    const freq = document.getElementById('f-frequency').value;
+    if (length){
+      countField.value = suggestInstallmentCount(length, unit, freq);
+      updatePreview();
+    }
+  }
+
+  function updatePreview(){
+    const principal = Number(document.getElementById('f-principal').value) || 0;
+    const interest = Number(document.getElementById('f-interest').value) || 0;
+    const total = principal + principal * (interest/100);
+    let label = fmtMoney(total);
+    if (payoutChoice === 'installments'){
+      const count = Number(document.getElementById('f-installment-count').value) || 1;
+      label += `  (${fmtMoney(total/count)} × ${count})`;
+    }
+    document.getElementById('preview-total').textContent = label;
+  }
+
+  document.getElementById('btn-save').addEventListener('click', async () => {
+    const borrower = document.getElementById('f-borrower').value.trim();
+    const officer = document.getElementById('f-officer').value.trim();
+    const lender = document.getElementById('f-lender').value.trim();
+    const principal = Number(document.getElementById('f-principal').value);
+    const interestRate = Number(document.getElementById('f-interest').value);
+    const length = Number(document.getElementById('f-length').value);
+    const lengthUnit = document.getElementById('f-length-unit').value;
+    const startDate = document.getElementById('f-start-date').value;
+    const frequency = document.getElementById('f-frequency').value;
+    const installmentCount = Number(document.getElementById('f-installment-count').value) || 1;
+    const alreadyPaid = document.getElementById('f-already-paid').checked;
+
+    if (!borrower || !principal || !length){
+      alert('Please fill in the borrower name, principal amount, and loan length.');
+      return;
+    }
+
+    if (editingId){
+      const loan = loans.find(l => l.id === editingId);
+      Object.assign(loan, { borrower, officer, lender, principal, interestRate, length, lengthUnit, startDate, payoutType: payoutChoice, frequency, installmentCount });
+      if (!loan.payments) loan.payments = [];
+      if (alreadyPaid){
+        const totals = computeTotals(loan);
+        const outstanding = totals.total - totalPaid(loan);
+        if (outstanding > 0.005){
+          loan.payments.push({ id: uid(), date: toISODate(new Date()), amount: outstanding, note: 'Marked already paid' });
+        }
+        loan.status = 'completed';
+      }
+    } else {
+      const loan = {
+        id: uid(),
+        borrower, officer, lender, principal, interestRate, length, lengthUnit, startDate,
+        payoutType: payoutChoice,
+        frequency: payoutChoice === 'installments' ? frequency : null,
+        installmentCount: payoutChoice === 'installments' ? installmentCount : 0,
+        payments: [],
+        status: alreadyPaid ? 'completed' : 'active',
+        createdAt: Date.now()
+      };
+      if (alreadyPaid){
+        const totals = computeTotals(loan);
+        loan.payments.push({ id: uid(), date: toISODate(new Date()), amount: totals.total, note: 'Marked already paid' });
+      }
+      loans.unshift(loan);
+    }
+
+    await saveLoans();
+    renderAll();
+    closeModal();
+  });
+
+  // ---------- card actions (event delegation) ----------
+  document.getElementById('ledger-app').addEventListener('click', async (e) => {
+    const actionBtn = e.target.closest('[data-action]');
+    if (actionBtn){
+      const loan = loans.find(l => l.id === actionBtn.dataset.loanid);
+      if (!loan) return;
+      const action = actionBtn.dataset.action;
+
+      if (action === 'edit'){
+        openEditModal(loan);
+      }
+      if (action === 'record-payment'){
+        openPaymentModal(loan);
+      }
+      if (action === 'delete-payment'){
+        const paymentId = actionBtn.dataset.paymentid;
+        loan.payments = (loan.payments||[]).filter(p => p.id !== paymentId);
+        loan.status = remainingBalance(loan) <= 0.005 ? 'completed' : 'active';
+        await saveLoans();
+        renderAll();
+      }
+      if (action === 'complete'){
+        const outstanding = remainingBalance(loan);
+        if (outstanding > 0.005){
+          if (!loan.payments) loan.payments = [];
+          loan.payments.push({ id: uid(), date: toISODate(new Date()), amount: outstanding, note: 'Marked complete' });
+        }
+        loan.status = 'completed';
+        await saveLoans();
+        renderAll();
+      }
+      if (action === 'renew'){
+        const fresh = {
+          ...loan,
+          id: uid(),
+          status: 'active',
+          startDate: toISODate(new Date()),
+          payments: [],
+          createdAt: Date.now()
+        };
+        loans.unshift(fresh);
+        await saveLoans();
+        renderAll();
+      }
+      if (action === 'delete'){
+        if (confirm(`Delete the completed loan for ${loan.borrower}? This can't be undone.`)){
+          loans = loans.filter(l => l.id !== loan.id);
+          await saveLoans();
+          renderAll();
+        }
+      }
+    }
+  });
+
+  // ---------- record payment modal ----------
+  let paymentLoanId = null;
+  const paymentBackdrop = document.getElementById('payment-modal-backdrop');
+
+  function openPaymentModal(loan){
+    paymentLoanId = loan.id;
+    const totals = computeTotals(loan);
+    const balance = remainingBalance(loan);
+    const suggested = loan.payoutType === 'installments' ? Math.min(totals.perInstallment, balance) : balance;
+    document.getElementById('payment-modal-name').textContent = `for ${loan.borrower}`;
+    document.getElementById('payment-modal-balance').textContent = `Balance owed: ${fmtMoney(balance)}`;
+    document.getElementById('p-date').value = toISODate(new Date());
+    document.getElementById('p-amount').value = suggested > 0 ? suggested.toFixed(2) : '';
+    document.getElementById('p-note').value = '';
+    paymentBackdrop.classList.remove('hidden');
+  }
+  function closePaymentModal(){
+    paymentBackdrop.classList.add('hidden');
+    paymentLoanId = null;
+  }
+  document.getElementById('btn-payment-cancel').addEventListener('click', closePaymentModal);
+  paymentBackdrop.addEventListener('click', (e) => { if (e.target === paymentBackdrop) closePaymentModal(); });
+
+  document.getElementById('btn-payment-save').addEventListener('click', async () => {
+    const loan = loans.find(l => l.id === paymentLoanId);
+    if (!loan) return;
+    const date = document.getElementById('p-date').value;
+    const amount = Number(document.getElementById('p-amount').value);
+    const note = document.getElementById('p-note').value.trim();
+    if (!date || !amount || amount <= 0){
+      alert('Please enter a valid date and amount.');
+      return;
+    }
+    if (!loan.payments) loan.payments = [];
+    loan.payments.push({ id: uid(), date, amount, note });
+    if (remainingBalance(loan) <= 0.005){
+      loan.status = 'completed';
+    }
+    await saveLoans();
+    renderAll();
+    closePaymentModal();
+  });
+
+  // ================= CC INSTALLMENTS =================
+  // A separate purchase-installment tracker: credit-card style purchases paid
+  // off in fixed installments every 15 days. Kept independent from the loans
+  // array/storage key so it can't collide with or corrupt loan data.
+  let ccItems = [];
+  let selectedCcId = null;
+  let ccEditingId = null;
+  let ccPaymentItemId = null;
+
+  const ccUid = () => 'cc_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
+
+  function computeCcTotals(item){
+    const interestAmt = item.amount * (item.percentage/100);
+    const total = item.amount + interestAmt;
+    const perInstallment = item.term > 0 ? total / item.term : 0;
+    return { interestAmt, total, perInstallment };
+  }
+  function getCcSchedule(item){
+    if (!item.startDate) return [];
+    const start = parseISODate(item.startDate);
+    const totals = computeCcTotals(item);
+    const out = [];
+    for (let i=0; i<item.term; i++){
+      out.push({ index: i, date: addDays(start, 15 * (i+1)), amount: totals.perInstallment, ordinal: i+1, count: item.term });
+    }
+    return out;
+  }
+  function totalPaidCc(item){ return (item.payments||[]).reduce((s,p) => s + (Number(p.amount)||0), 0); }
+  function remainingBalanceCc(item){ const totals = computeCcTotals(item); return Math.max(0, totals.total - totalPaidCc(item)); }
+  function paidCountFIFOCc(item){
+    const totals = computeCcTotals(item);
+    if (!totals.perInstallment) return 0;
+    return Math.min(item.term, Math.floor((totalPaidCc(item) + 0.005) / totals.perInstallment));
+  }
+  function isCcEntryPaid(item, entry){ return entry.index < paidCountFIFOCc(item); }
+
+  async function loadCcItems(){
+    try{
+      const res = await window.storage.get('cc-items', false);
+      ccItems = res && res.value ? JSON.parse(res.value) : [];
+    }catch(e){
+      ccItems = [];
+    }
+    ccItems.forEach(it => { if (!it.payments) it.payments = []; });
+    renderCcAll();
+  }
+  async function saveCcItems(){
+    try{
+      await window.storage.set('cc-items', JSON.stringify(ccItems), false);
+    }catch(e){
+      console.error('storage save failed', e);
+    }
+  }
+
+  function renderCcAll(){
+    const activeCount = ccItems.filter(i => i.status === 'active').length;
+    document.getElementById('count-cc').textContent = activeCount;
+    renderCcList();
+  }
+
+  function renderCcList(){
+    const listEl = document.getElementById('cc-loan-list');
+    listEl.innerHTML = '';
+    const sorted = ccItems.slice().sort((a,b) => {
+      if (a.status !== b.status) return a.status === 'active' ? -1 : 1;
+      return (b.createdAt||0) - (a.createdAt||0);
+    });
+
+    if (selectedCcId && !sorted.find(i => i.id === selectedCcId)) selectedCcId = null;
+
+    if (sorted.length === 0){
+      listEl.innerHTML = '<div class="empty-state"><span class="serif">Nothing here yet</span>Add a purchase to get started.</div>';
+      renderCcDetail(null);
+      return;
+    }
+
+    sorted.forEach(item => {
+      const paidCount = paidCountFIFOCc(item);
+      const el = document.createElement('div');
+      el.className = 'loan-list-item' + (item.id === selectedCcId ? ' selected' : '');
+      el.innerHTML = `
+        <div>
+          <div class="llname">${escapeHtml(item.purchasee)}</div>
+          <div class="llmeta">${escapeHtml(item.item)} &middot; ${fmtMoney(item.amount)}</div>
+        </div>
+        <div class="llprogress">${paidCount}/${item.term}</div>
+      `;
+      el.addEventListener('click', () => selectCcItem(item.id));
+      listEl.appendChild(el);
+    });
+
+    if (!selectedCcId && window.innerWidth > 780){
+      selectedCcId = sorted[0].id;
+      listEl.querySelector('.loan-list-item').classList.add('selected');
+    }
+
+    renderCcDetail(sorted.find(i => i.id === selectedCcId) || null);
+  }
+
+  function selectCcItem(id){
+    selectedCcId = id;
+    app.classList.add('detail-open');
+    renderCcList();
+  }
+  document.getElementById('cc-back-btn').addEventListener('click', () => {
+    app.classList.remove('detail-open');
+    selectedCcId = null;
+    renderCcList();
+  });
+
+  function renderCcDetail(item){
+    const emptyEl = document.getElementById('cc-empty-detail');
+    const contentEl = document.getElementById('cc-detail-content');
+    if (!item){
+      emptyEl.classList.remove('hidden');
+      contentEl.classList.add('hidden');
+      contentEl.innerHTML = '';
+      return;
+    }
+    emptyEl.classList.add('hidden');
+    contentEl.classList.remove('hidden');
+    contentEl.innerHTML = '';
+    contentEl.appendChild(renderCcCard(item));
+  }
+
+  function renderCcCard(item){
+    const totals = computeCcTotals(item);
+    const card = document.createElement('div');
+    card.className = 'loan-card';
+
+    const paidCount = paidCountFIFOCc(item);
+    const schedule = getCcSchedule(item);
+    const nextEntry = item.status === 'active' ? schedule.find(e => !isCcEntryPaid(item, e)) : null;
+    const startedLabel = item.startDate ? `Started ${formatDatePretty(parseISODate(item.startDate))}` : '';
+    const balance = remainingBalanceCc(item);
+    const payments = (item.payments||[]).slice().sort((a,b) => b.date.localeCompare(a.date));
+
+    card.innerHTML = `
+      <div class="loan-card-top">
+        <div>
+          <div class="loan-name serif">${escapeHtml(item.purchasee)}</div>
+          <div class="loan-meta">${escapeHtml(item.item)} &middot; Every 15 days${startedLabel ? ' &middot; ' + startedLabel : ''}</div>
+        </div>
+        <div class="status-pill ${item.status}">${item.status}</div>
+      </div>
+
+      <div class="loan-figures">
+        <div><div class="fig-label">Amount</div><div class="fig-value mono">${fmtMoney(item.amount)}</div></div>
+        <div><div class="fig-label">Percentage</div><div class="fig-value mono">${item.percentage}%</div></div>
+        <div><div class="fig-label">Total due</div><div class="fig-value mono">${fmtMoney(totals.total)}</div></div>
+        <div><div class="fig-label">Per installment</div><div class="fig-value mono">${fmtMoney(totals.perInstallment)}</div></div>
+        <div><div class="fig-label">Balance owed</div><div class="fig-value mono">${fmtMoney(balance)}</div></div>
+        <div><div class="fig-label">Next due</div><div class="fig-value mono">${nextEntry ? formatDatePretty(nextEntry.date) : (item.status === 'completed' ? 'Paid off' : '—')}</div></div>
+      </div>
+
+      <div class="installment-block">
+        <div class="installment-head"><span>Installments (from payments received)</span><span class="count">${paidCount} / ${item.term} covered</span></div>
+        <div class="ticks">${schedule.map((entry,i) => `<div class="tick-item ${i < paidCount ? 'paid' : ''}"><div class="tick ${i < paidCount ? 'paid' : ''}"></div><span class="tick-date">${formatDateShort(entry.date)}</span></div>`).join('')}</div>
+      </div>
+
+      ${payments.length ? `
+        <div class="payment-log">
+          <div class="installment-head"><span>Payments received</span></div>
+          ${payments.map(p => `
+            <div class="payment-row">
+              <div>
+                <div class="payment-amount mono">${fmtMoney(p.amount)}</div>
+                <div class="payment-meta">${formatDatePretty(parseISODate(p.date))}${p.note ? ' &middot; ' + escapeHtml(p.note) : ''}</div>
+              </div>
+              <button class="payment-delete" data-cc-action="delete-payment" data-ccid="${item.id}" data-paymentid="${p.id}" title="Remove this payment">&times;</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+
+      <div class="loan-actions">
+        ${item.status === 'active' ? `
+          <button class="btn-sm brass" data-cc-action="record-payment" data-ccid="${item.id}">Record a payment</button>
+          <button class="btn-sm sage" data-cc-action="complete" data-ccid="${item.id}">Mark complete</button>
+          <button class="btn-sm" data-cc-action="edit" data-ccid="${item.id}">Edit</button>
+        ` : `
+          <button class="btn-sm clay" data-cc-action="delete" data-ccid="${item.id}">Delete</button>
+        `}
+      </div>
+    `;
+    return card;
+  }
+
+  // ---------- cc add/edit modal ----------
+  const ccBackdrop = document.getElementById('cc-modal-backdrop');
+
+  function openCcAddModal(){
+    ccEditingId = null;
+    document.getElementById('cc-modal-title').textContent = 'New Installment';
+    document.getElementById('cc-f-purchasee').value = '';
+    document.getElementById('cc-f-item').value = '';
+    document.getElementById('cc-f-amount').value = '';
+    document.getElementById('cc-f-percentage').value = '';
+    document.getElementById('cc-f-term').value = '';
+    document.getElementById('cc-f-start-date').value = toISODate(new Date());
+    document.getElementById('cc-f-already-paid').checked = false;
+    ccBackdrop.classList.remove('hidden');
+    updateCcPreview();
+  }
+  function openCcEditModal(item){
+    ccEditingId = item.id;
+    document.getElementById('cc-modal-title').textContent = 'Edit Installment';
+    document.getElementById('cc-f-purchasee').value = item.purchasee;
+    document.getElementById('cc-f-item').value = item.item;
+    document.getElementById('cc-f-amount').value = item.amount;
+    document.getElementById('cc-f-percentage').value = item.percentage;
+    document.getElementById('cc-f-term').value = item.term;
+    document.getElementById('cc-f-start-date').value = item.startDate || toISODate(new Date());
+    document.getElementById('cc-f-already-paid').checked = item.status === 'completed';
+    ccBackdrop.classList.remove('hidden');
+    updateCcPreview();
+  }
+  function closeCcModal(){ ccBackdrop.classList.add('hidden'); }
+
+  document.getElementById('btn-open-add-cc').addEventListener('click', openCcAddModal);
+  document.getElementById('cc-btn-cancel').addEventListener('click', closeCcModal);
+  ccBackdrop.addEventListener('click', (e) => { if (e.target === ccBackdrop) closeCcModal(); });
+
+  ['cc-f-amount','cc-f-percentage','cc-f-term'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateCcPreview);
+    document.getElementById(id).addEventListener('change', updateCcPreview);
+  });
+
+  function updateCcPreview(){
+    const amount = Number(document.getElementById('cc-f-amount').value) || 0;
+    const percentage = Number(document.getElementById('cc-f-percentage').value) || 0;
+    const term = Number(document.getElementById('cc-f-term').value) || 0;
+    const total = amount + amount * (percentage/100);
+    const perInstallment = term > 0 ? total / term : 0;
+    document.getElementById('cc-preview-installment').textContent = fmtMoney(perInstallment);
+  }
+
+  document.getElementById('cc-btn-save').addEventListener('click', async () => {
+    const purchasee = document.getElementById('cc-f-purchasee').value.trim();
+    const itemName = document.getElementById('cc-f-item').value.trim();
+    const amount = Number(document.getElementById('cc-f-amount').value);
+    const percentage = Number(document.getElementById('cc-f-percentage').value) || 0;
+    const term = Number(document.getElementById('cc-f-term').value);
+    const startDate = document.getElementById('cc-f-start-date').value;
+    const alreadyPaid = document.getElementById('cc-f-already-paid').checked;
+
+    if (!purchasee || !amount || !term){
+      alert('Please fill in the purchasee name, amount, and term.');
+      return;
+    }
+
+    if (ccEditingId){
+      const item = ccItems.find(i => i.id === ccEditingId);
+      Object.assign(item, { purchasee, item: itemName, amount, percentage, term, startDate });
+      if (!item.payments) item.payments = [];
+      if (alreadyPaid){
+        const totals = computeCcTotals(item);
+        const outstanding = totals.total - totalPaidCc(item);
+        if (outstanding > 0.005){
+          item.payments.push({ id: ccUid(), date: toISODate(new Date()), amount: outstanding, note: 'Marked already paid' });
+        }
+        item.status = 'completed';
+      } else {
+        item.status = remainingBalanceCc(item) <= 0.005 ? 'completed' : 'active';
+      }
+    } else {
+      const item = {
+        id: ccUid(), purchasee, item: itemName, amount, percentage, term, startDate,
+        payments: [], status: alreadyPaid ? 'completed' : 'active', createdAt: Date.now()
+      };
+      if (alreadyPaid){
+        const totals = computeCcTotals(item);
+        item.payments.push({ id: ccUid(), date: toISODate(new Date()), amount: totals.total, note: 'Marked already paid' });
+      }
+      ccItems.unshift(item);
+    }
+
+    await saveCcItems();
+    renderCcAll();
+    closeCcModal();
+  });
+
+  // ---------- cc card actions (event delegation) ----------
+  document.getElementById('ledger-app').addEventListener('click', async (e) => {
+    const actionBtn = e.target.closest('[data-cc-action]');
+    if (!actionBtn) return;
+    const item = ccItems.find(i => i.id === actionBtn.dataset.ccid);
+    if (!item) return;
+    const action = actionBtn.dataset.ccAction;
+
+    if (action === 'edit'){
+      openCcEditModal(item);
+    }
+    if (action === 'record-payment'){
+      openCcPaymentModal(item);
+    }
+    if (action === 'delete-payment'){
+      const paymentId = actionBtn.dataset.paymentid;
+      item.payments = (item.payments||[]).filter(p => p.id !== paymentId);
+      item.status = remainingBalanceCc(item) <= 0.005 ? 'completed' : 'active';
+      await saveCcItems();
+      renderCcAll();
+    }
+    if (action === 'complete'){
+      const outstanding = remainingBalanceCc(item);
+      if (outstanding > 0.005){
+        if (!item.payments) item.payments = [];
+        item.payments.push({ id: ccUid(), date: toISODate(new Date()), amount: outstanding, note: 'Marked complete' });
+      }
+      item.status = 'completed';
+      await saveCcItems();
+      renderCcAll();
+    }
+    if (action === 'delete'){
+      if (confirm(`Delete the installment plan for ${item.purchasee}? This can't be undone.`)){
+        ccItems = ccItems.filter(i => i.id !== item.id);
+        await saveCcItems();
+        renderCcAll();
+      }
+    }
+  });
+
+  // ---------- cc record payment modal ----------
+  const ccPaymentBackdrop = document.getElementById('cc-payment-modal-backdrop');
+
+  function openCcPaymentModal(item){
+    ccPaymentItemId = item.id;
+    const totals = computeCcTotals(item);
+    const balance = remainingBalanceCc(item);
+    const suggested = Math.min(totals.perInstallment, balance);
+    document.getElementById('cc-payment-modal-name').textContent = `for ${item.purchasee}`;
+    document.getElementById('cc-payment-modal-balance').textContent = `Balance owed: ${fmtMoney(balance)}`;
+    document.getElementById('cc-p-date').value = toISODate(new Date());
+    document.getElementById('cc-p-amount').value = suggested > 0 ? suggested.toFixed(2) : '';
+    document.getElementById('cc-p-note').value = '';
+    ccPaymentBackdrop.classList.remove('hidden');
+  }
+  function closeCcPaymentModal(){
+    ccPaymentBackdrop.classList.add('hidden');
+    ccPaymentItemId = null;
+  }
+  document.getElementById('cc-btn-payment-cancel').addEventListener('click', closeCcPaymentModal);
+  ccPaymentBackdrop.addEventListener('click', (e) => { if (e.target === ccPaymentBackdrop) closeCcPaymentModal(); });
+
+  document.getElementById('cc-btn-payment-save').addEventListener('click', async () => {
+    const item = ccItems.find(i => i.id === ccPaymentItemId);
+    if (!item) return;
+    const date = document.getElementById('cc-p-date').value;
+    const amount = Number(document.getElementById('cc-p-amount').value);
+    const note = document.getElementById('cc-p-note').value.trim();
+    if (!date || !amount || amount <= 0){
+      alert('Please enter a valid date and amount.');
+      return;
+    }
+    if (!item.payments) item.payments = [];
+    item.payments.push({ id: ccUid(), date, amount, note });
+    if (remainingBalanceCc(item) <= 0.005){
+      item.status = 'completed';
+    }
+    await saveCcItems();
+    renderCcAll();
+    closeCcPaymentModal();
+  });
+
+  loadLoans();
+  loadSettings();
+  loadCcItems();
+})();
+</script>
+</body></html>
