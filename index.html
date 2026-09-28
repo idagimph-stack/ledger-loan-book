@@ -1835,11 +1835,14 @@ if (!window.storage){
 
     // --- Loan sheet builder (shared by Active + Completed) ---
     function loanRows(list){
-      const headers = ['Borrower','Officer','Master Lender','Principal','Interest %','Payout','Frequency','Installment Amount','Start Date','Total Due','Paid So Far','Balance Owed','Status','Next Due Date'];
+      const headers = ['Borrower','Officer','Master Lender','Principal','Interest %','Payout','Frequency','Installment Amount','Start Date','Total Due','Paid So Far','Balance Owed','Status','Due Dates'];
       const rows = list.map(loan => {
         const totals = computeTotals(loan);
         const schedule = getSchedule(loan);
-        const nextEntry = loan.status === 'active' ? schedule.find(e => !isEntryPaid(loan, e)) : null;
+        const dueDates = schedule.map(entry => {
+          const dateStr = toISODate(entry.date);
+          return isEntryPaid(loan, entry) ? (dateStr + ' (paid)') : dateStr;
+        }).join(', ');
         return [
           loan.borrower,
           loan.officer || '',
@@ -1854,7 +1857,7 @@ if (!window.storage){
           Number(totalPaid(loan).toFixed(2)),
           Number(remainingBalance(loan).toFixed(2)),
           loan.status,
-          nextEntry ? toISODate(nextEntry.date) : ''
+          dueDates
         ];
       });
       return [headers, ...rows];
