@@ -13,7 +13,15 @@ function json(obj, statusCode) {
 
 exports.handler = async (event) => {
   try {
-    const store = getStore({ name: 'ledger', consistency: 'strong' });
+    // explicit credentials: this account's Blobs environment doesn't
+    // auto-inject them into the function runtime, so they're passed in via
+    // site environment variables (BLOBS_TOKEN, SITE_ID) instead.
+    const store = getStore({
+      name: 'ledger',
+      consistency: 'strong',
+      siteID: process.env.SITE_ID,
+      token: process.env.BLOBS_TOKEN
+    });
     const params = event.queryStringParameters || {};
 
     if (event.httpMethod === 'GET' && params.list === '1') {
