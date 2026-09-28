@@ -1835,7 +1835,7 @@ if (!window.storage){
 
     // --- Loan sheet builder (shared by Active + Completed) ---
     function loanRows(list){
-      const headers = ['Borrower','Officer','Master Lender','Principal','Interest %','Payout','Frequency','Start Date','Total Due','Paid So Far','Balance Owed','Status','Next Due Date'];
+      const headers = ['Borrower','Officer','Master Lender','Principal','Interest %','Payout','Frequency','Installment Amount','Start Date','Total Due','Paid So Far','Balance Owed','Status','Next Due Date'];
       const rows = list.map(loan => {
         const totals = computeTotals(loan);
         const schedule = getSchedule(loan);
@@ -1848,6 +1848,7 @@ if (!window.storage){
           loan.interestRate,
           loan.payoutType === 'lumpsum' ? 'Lump sum' : 'Installments',
           loan.payoutType === 'installments' ? (freqLabels[loan.frequency] || loan.frequency) : '',
+          loan.payoutType === 'installments' ? Number(totals.perInstallment.toFixed(2)) : '',
           loan.startDate || '',
           Number(totals.total.toFixed(2)),
           Number(totalPaid(loan).toFixed(2)),
